@@ -1,13 +1,13 @@
-  #### Pavadinimas:
+### Pavadinimas:
 Ešerinis
 
-#### Komandos nariai:
+### Komandos nariai:
 Martynas Šimkus
 Mantas Liutkus
 Povilas Sakalauskas
 Marius Varna
 
-#### Techninė užduotis:
+### Techninė užduotis:
 
 Prieš pradedant:
 
