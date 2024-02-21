@@ -41,6 +41,17 @@
 ## Architektūra:
 ![image](https://github.com/ms1mkus/eserinis/assets/73387448/c9805a31-b4a5-4b07-831c-12a807025a93)
 
+Backend 'operuoja' šie kontroleriai:
+
+| Katalogas       | Failai                       | Aprašymas                             |
+|-----------------|------------------------------|--------------------------------------|
+| **./auth**      | `index.ts`, `validators.ts`  | Autentifikacijos procesai            |
+| **./comment**   | `commentController.ts`       | Komentarų funkcionalumas             |
+| **./fish**      | `fishController.ts`          | Žuvų duomenų apdorojimas             |
+| **./lake**      | `lakeController.ts`          | Ežerų duomenų apdorojimas            |
+| **./users**     | `index.ts`, `validators.ts`  | Vartotojų duomenų apdorojimas        |
+
+
 ## Testavimas ir jo rezultatai:
 
 [Testavimo rezultatai (Ataskaita)](./Unit_Tests.pdf)
