@@ -18,12 +18,12 @@
 > [!IMPORTANT]
 > Prieš pradedant susirašyti: https://git-scm.com/downloads ir https://code.visualstudio.com/download 
   
-  P.S. Projekte cmd/terminalas visur ta pati reiskias, nesvarbu mac ar dar kazkas.
+  * P.S. Projekte cmd/terminalas visur tą patį reiškia, nesvarbu mac ar win.
   
-  cmd atsidaryt ir pasileist sita dvi komandas, pakeist kabutes atitinkamai su jusu info
+  * Cmd atsidaryt ir pasileist šitas dvi komandas, pakeist kabutes atitinkamai su jūsų info
   
-  Set your username: git config --global user.name "FIRST_NAME LAST_NAME"
-  Set your email address: git config --global user.email "MY_NAME@example.com"
+  * Set your username: git config --global user.name "FIRST_NAME LAST_NAME"
+  * Set your email address: git config --global user.email "MY_NAME@example.com"
   
   ### Step 1: Set up the Development Environment
   
