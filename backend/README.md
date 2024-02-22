@@ -83,8 +83,7 @@ If the server is running, you should receive `Server is up!` as response.
 ## Scripts
 
 ⚠️ Except Docker scripts, all the scripts must be executed in the `api` container shell!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-SVARBU, kai yarn docker:up pasileidziat tai sukuria jums virtual machine kind of, tai tik toje consoleje ir galesit komandas kazkoias leist (frontende viskas gud pvz. nereik sitaip)
+(yarn docker:shell)
 
 ### • Docker
 
@@ -145,9 +144,9 @@ The route prefix is `/api` by default, but you can change this in the .env file.
 
 | Name                                        | Description                               |
 | ------------------------------------------- | ----------------------------------------- |
-| ****tests**/**                              | Tests                                     |
-| ****tests**/e2e/**                          | End-to-end tests                          |
-| ****tests**/utils/**                        | Tests utils                               |
+| \***\*tests**/\*\*                          | Tests                                     |
+| \***\*tests**/e2e/\*\*                      | End-to-end tests                          |
+| \***\*tests**/utils/\*\*                    | Tests utils                               |
 | **@types/**                                 | Global types definitions                  |
 | **build/**                                  | Compiled source files will be placed here |
 | **coverage/**                               | Jest coverage results will be placed here |

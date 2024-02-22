@@ -57,13 +57,8 @@ const authenticated = (req: Request, res: Response) => {
   }
 };
 
-const troll = (req: Request, res: Response) => {
-  res.send("You are trolled");
-};
-
 export default {
   login,
   logout,
   authenticated,
-  troll,
 };
