@@ -14,20 +14,12 @@ const createCaughtFishEntry = async (req: Request, res: Response) => {
     return res.status(400).json({ message: "Missing required fields" });
   }
 
-  // Check if caughtAt is earlier than 24 hours from now
-  // const now = new Date();
-  // const caughtDate = new Date(caughtAt);
-
-  // if (now.getTime() - caughtDate.getTime() < 24 * 60 * 60 * 1000) {
-  //   return res
-  //     .status(400)
-  //     .json({ message: "caughtAt date should be at least 24 hours ago" });
-  // }
-
   let queryRunner: QueryRunner;
 
   try {
     queryRunner = AppDataSource.createQueryRunner();
+
+    await queryRunner.connect(); // Connect to the database
 
     await queryRunner.startTransaction();
 
@@ -55,25 +47,25 @@ const createCaughtFishEntry = async (req: Request, res: Response) => {
 
     res.status(201).json({ message: "Caught fish entry created successfully" });
   } catch (error) {
+    console.error("Error creating caught fish entry:", error);
+
     if (queryRunner) {
       await queryRunner.rollbackTransaction();
     }
 
-    console.error("Error creating caught fish entry:", error);
     res.status(500).json({ message: "Failed to create caught fish entry" });
   } finally {
     if (queryRunner) {
-      await queryRunner.release();
+      await queryRunner.release(); // Release the query runner
     }
   }
 };
 
 const getFishes = async (req: Request, res: Response) => {
+  let queryRunner: QueryRunner;
   try {
-    const queryRunner = AppDataSource.createQueryRunner();
-
-    await queryRunner.startTransaction();
-
+    queryRunner = AppDataSource.createQueryRunner();
+    await queryRunner.connect();
     const fishRepository = queryRunner.manager.getRepository(Fish);
 
     const fishes = await fishRepository.find();

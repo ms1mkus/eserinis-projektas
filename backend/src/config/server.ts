@@ -21,7 +21,7 @@ const createServer = () => {
   app.use(morgan("dev"));
   app.use(cors(corsOptions));
   app.use(urlencoded({ extended: true }));
-  app.use(json());
+  app.use(express.json());
   app.use(helmet());
   app.set("json spaces", 2);
 

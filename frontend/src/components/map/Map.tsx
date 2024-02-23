@@ -27,7 +27,6 @@ export type Fish = {
   count: number;
 };
 
-
 const Map: React.FC = () => {
   const { lakes, isLoading, error } = useLakes();
   const [selectedLake, setSelectedLake] = useState<Lake | null>(null);
@@ -37,6 +36,7 @@ const Map: React.FC = () => {
   const fetchLakeData = async () => {
     if (!selectedLake?.id) return;
     try {
+      console.log(selectedLake);
       const response = await axios.get(`/lake/${selectedLake.id}`);
       setSelectedLakeFishes(response.data);
       // Handle the response and update state accordingly
@@ -46,6 +46,7 @@ const Map: React.FC = () => {
   };
 
   useEffect(() => {
+    setSelectedLakeFishes([]);
     fetchLakeData();
   }, [selectedLake?.id]);
 
@@ -72,18 +73,18 @@ const Map: React.FC = () => {
         style={{ height: "92vh", width: "100wh", zIndex: 0 }}
         zoom={8}
         scrollWheelZoom={true}
-        >
+      >
         <TileLayer
-        url={
-          darkMode
-            ? "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            : "https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}"
-        }
-        attribution={
-          darkMode
-            ? '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            : '&copy; <a href="https://www.arcgis.com/">Esri</a>'
-        }
+          url={
+            darkMode
+              ? "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+              : "https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}"
+          }
+          attribution={
+            darkMode
+              ? '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+              : '&copy; <a href="https://www.arcgis.com/">Esri</a>'
+          }
         />
         {lakes.map((lake) => (
           <Marker
@@ -146,13 +147,21 @@ const Map: React.FC = () => {
                                   {fish.name}
                                 </p>
                                 <br />
-                                {parseInt(fish.count) % 10 === 0 || (parseInt(fish.count) > 10 && parseInt(fish.count) < 20) ? (
-                                  <p>Ši žuvis buvo pagauta: {fish.count} kartų</p>
-                                ) : (parseInt(fish.count) % 10 === 1 ? (
-                                  <p>Ši žuvis buvo pagauta: {fish.count} kartą</p>
+                                {parseInt(fish.count) % 10 === 0 ||
+                                (parseInt(fish.count) > 10 &&
+                                  parseInt(fish.count) < 20) ? (
+                                  <p>
+                                    Ši žuvis buvo pagauta: {fish.count} kartų
+                                  </p>
+                                ) : parseInt(fish.count) % 10 === 1 ? (
+                                  <p>
+                                    Ši žuvis buvo pagauta: {fish.count} kartą
+                                  </p>
                                 ) : (
-                                  <p>Ši žuvis buvo pagauta: {fish.count} kartus</p>
-                                ))}
+                                  <p>
+                                    Ši žuvis buvo pagauta: {fish.count} kartus
+                                  </p>
+                                )}
                               </div>
                             </div>
                           </CarouselItem>
