@@ -33,7 +33,7 @@ const RoutesManager = () => {
         },
         {
           path: "/profile",
-          element: <div>User Profile</div>,
+          element: <div>User Profile.</div>,
         },
         {
           path: "/logout",
