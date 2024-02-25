@@ -21,7 +21,7 @@ const getLakeInfo = async (req: Request, res: Response) => {
     //TODO factor to actually queryRunner not raw SQL
     const fishes = await queryRunner.manager.query(
       `select
-    fish."name", "user".username, count(*)
+    fish."name", "user".username, count(*), fish.id
   from
     caught_fish as cf
   inner join fish on

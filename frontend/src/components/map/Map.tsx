@@ -52,13 +52,13 @@ const mockFishes: Fish[] = [
 const Map: React.FC = () => {
   const { lakes, isLoading, error } = useLakes();
   const [selectedLake, setSelectedLake] = useState<Lake | null>(null);
-  const [selectedLakeData, setSelectedLakeData] = useState<Lake | null>(null);
+  const [selectedLakeFishes, setSelectedLakeFishes] = useState<any[]>([]);
 
   const fetchLakeData = async () => {
     if (!selectedLake?.id) return;
     try {
       const response = await axios.get(`/lake/${selectedLake.id}`);
-      setSelectedLakeData(response.data);
+      setSelectedLakeFishes(response.data);
       // Handle the response and update state accordingly
     } catch (error) {
       console.error("Error fetching fishes:", error);
@@ -84,7 +84,7 @@ const Map: React.FC = () => {
   if (error) {
     return <div>Error: {error}</div>;
   }
-
+  console.log(selectedLakeFishes);
   return (
     <div className="relative">
       <MapContainer
@@ -116,49 +116,63 @@ const Map: React.FC = () => {
         <Dialog open={true} onOpenChange={closeModal}>
           <DialogContent>
             <DialogHeader>
-              <DialogTitle className="text-2xl font-bold">
+              <DialogTitle className="text-3xl font-bold">
                 {selectedLake.name}
               </DialogTitle>
             </DialogHeader>
             <DialogDescription className="text-gray-600 p-6">
               <div className="mb-4">
-                <span className="font-semibold text-lg">Plotas:</span>{" "}
-                {selectedLake.area} km²
+                <span className="font-semibold text-xl">
+                  Plotas: {selectedLake.area} km²
+                </span>
               </div>
               <div className="mb-4">
-                <span className="font-semibold text-lg">Gylis:</span>{" "}
-                {selectedLake.depth} meters
+                <span className="font-semibold text-xl">
+                  Gylis: {selectedLake.depth} m.
+                </span>
               </div>
               <div className="mb-4">
-                <span className="font-semibold text-lg">Aprašymas:</span>{" "}
-                {selectedLake.description}
+                <span className="font-semibold text-xl">
+                  Aprašymas: {selectedLake.description}
+                </span>
               </div>
 
               <div className="container mx-auto p-4">
-                <p className="text-2xl font-bold mb-4">
-                  Šiame ežere galite pagauti:
-                </p>
-                <Carousel>
-                  <CarouselContent>
-                    {mockFishes.map((fish) => (
-                      <CarouselItem className="basis-1/3">
-                        <div
-                          key={fish.id}
-                          className="bg-white rounded-lg shadow-lg "
-                        >
-                          <img
-                            src={`/path/to/mock-fish-image-${fish.id}.jpg`}
-                            alt={fish.name}
-                            className="w-full h-32 object-cover rounded-lg mb-4"
-                          />
-                          <p className="text-xl font-semibold ">{fish.name}</p>
-                        </div>
-                      </CarouselItem>
-                    ))}
-                  </CarouselContent>
-                  <CarouselPrevious />
-                  <CarouselNext />
-                </Carousel>
+                {selectedLakeFishes?.length > 0 ? (
+                  <>
+                    <p className="text-4xl font-bold mb-4">
+                      Šiame ežere galite pagauti:
+                    </p>
+                    <Carousel>
+                      <CarouselContent>
+                        {selectedLakeFishes.map((fish) => (
+                          <CarouselItem key={fish.id} className="basis-2/3">
+                            <div className="bg-white rounded-lg shadow-lg">
+                              <img
+                                src={`../../../../public/${fish.id}.png`}
+                                alt={fish.name}
+                                className="w-full h-32 object-cover rounded-lg mb-4"
+                              />
+                              <div className="mx-auto text-center">
+                                <p className="text-xl font-semibold text-center">
+                                  {fish.name}
+                                </p>
+                                <br />
+                                <p>Si zuvis buvo pagaut: {fish.count} kartu</p>
+                              </div>
+                            </div>
+                          </CarouselItem>
+                        ))}
+                      </CarouselContent>
+                      <CarouselPrevious />
+                      <CarouselNext />
+                    </Carousel>
+                  </>
+                ) : (
+                  <div className="text-2xl font-bold text-black text-center">
+                    Šiame ežere nėra žuvų 😢
+                  </div>
+                )}
               </div>
             </DialogDescription>
           </DialogContent>
