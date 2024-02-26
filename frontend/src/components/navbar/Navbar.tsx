@@ -47,8 +47,6 @@ const Navbar = () => {
     fetchProfileData();
   }, []);
 
-  console.log(previewImage);
-
   const fetchProfileData = async () => {
     try {
       // Fetch profile data from the backend
