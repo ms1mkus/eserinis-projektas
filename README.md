@@ -1,7 +1,8 @@
 Prieš pradedant:
 
 susirasykit: https://git-scm.com/downloads ir https://code.visualstudio.com/download 
-Projekte cmd/terminalas visur ta pati reiskias, nesvarbu mac ar dar kazkas.
+
+P.S. Projekte cmd/terminalas visur ta pati reiskias, nesvarbu mac ar dar kazkas.
 
 cmd atsidaryt ir pasileist sita dvi komandas, pakeist kabutes atitinkamai su jusu info
 
