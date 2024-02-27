@@ -21,6 +21,7 @@
     "passport-local": "^1.0.0",
     "pg": "^8.11.3",
     "reflect-metadata": "^0.2.1",
+    "sharp": "^0.33.3",
     "tslib": "^2.6.2",
     "typeorm": "^0.3.19",
     "validator": "^13.11.0"
@@ -54,7 +55,7 @@
   },
   "scripts": {
     "start": "node build/index.js",
-    "dev": "yarn && nodemon -L src/index.ts --watch \"src/**/*.{ts,js}\"",
+    "dev": "yarn && nodemon -L src/index.ts --watch src",
     "build": "tsc -p tsconfig-build.json",
     "type-check": "tsc --noEmit",
     "lint:fix": "eslint --fix \"{src,__tests__}/**/*.{ts,js}\"",

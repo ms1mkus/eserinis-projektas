@@ -152,12 +152,21 @@ export const getLakes = async (req: Request, res: Response) => {
       `SELECT l."lakeId" FROM "like" l WHERE l."userId" = $1`,
       [userId]
     );
+    const caughtFishes = await queryRunner.manager.query(
+      `select "lakeId", array_agg("fishId") as "fishIds"  from caught_fish cf group by cf."lakeId" `
+    );
+
+    const caughtFishesMap = {};
+    for (const fishes of caughtFishes) {
+      caughtFishesMap[fishes.lakeId] = fishes.fishIds;
+    }
 
     const likesSet = new Set(likes.map((like) => like.lakeId));
 
     const lakesWithLikes = lakes.map((lake) => ({
       ...lake,
       isLiked: Boolean(likesSet.has(lake.id)),
+      fishIds: caughtFishesMap[lake.id],
     }));
 
     res.status(200).json(lakesWithLikes);
