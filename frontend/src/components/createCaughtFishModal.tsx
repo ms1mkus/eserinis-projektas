@@ -38,6 +38,7 @@ const CreateCaughtFishModal: React.FC<CreateCaughtFishModalProps> = (props) => {
   );
   const [fishes, setFishes] = useState<any[]>([]);
   const [open, setOpen] = useState(false);
+  const [openFishSelect, setOpenFishSelect] = useState(false);
   const [selectedLake, setSelectedLake] = useState<any>(null);
   const [selectedFish, setSelectedFish] = useState<any>(null);
 
@@ -51,7 +52,6 @@ const CreateCaughtFishModal: React.FC<CreateCaughtFishModalProps> = (props) => {
     try {
       const response = await axios.get("/fish");
       setFishes(response.data);
-      console.log(response.data);
       // Handle the response and update state accordingly
     } catch (error) {
       console.error("Error fetching fishes:", error);
@@ -66,9 +66,9 @@ const CreateCaughtFishModal: React.FC<CreateCaughtFishModalProps> = (props) => {
     if (!selectedLake) return;
 
     try {
-      const response = await axios.post("/createCaughtFishEntry", {
+      const response = await axios.post("/fish/create-caught-entry", {
+        fishId: selectedFish.id,
         lakeId: selectedLake.id,
-        fishName,
         caughtAt: caughtDate,
       });
 
@@ -122,9 +122,8 @@ const CreateCaughtFishModal: React.FC<CreateCaughtFishModalProps> = (props) => {
                           <CommandItem
                             key={lake.id}
                             value={String(lake.id)}
-                            onSelect={(currentValue) => {
+                            onSelect={() => {
                               setSelectedLake(lake);
-                              fetchFishes(currentValue);
                               setOpen(false);
                             }}
                           >
@@ -146,15 +145,51 @@ const CreateCaughtFishModal: React.FC<CreateCaughtFishModalProps> = (props) => {
               </Popover>
             </div>
             <div className="mb-4 flex w-full justify-between ">
-              <label className="font-semibold text-lg">
-                Žuvies pavadinimas:
-              </label>
-              <input
-                type="text"
-                value={fishName}
-                onChange={(e) => setFishName(e.target.value)}
-                className="p-2 border rounded"
-              />
+              <label className="font-semibold text-lg">Pasirinkite žuvį:</label>
+              <Popover open={openFishSelect} onOpenChange={setOpenFishSelect}>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    className="w-[200px] justify-between"
+                  >
+                    {selectedFish ? selectedFish.name : "Pasirinkite žuvį..."}
+                    <CaretSortIcon className="ml-2 h-4 w-4 opacity-50" />
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-[200px] p-0">
+                  <Command>
+                    <CommandInput
+                      placeholder="Ieškoti žuvies..."
+                      className="h-9"
+                    />
+                    <CommandEmpty>Nerasta tokio žuvies.</CommandEmpty>
+                    <CommandGroup>
+                      <CommandList>
+                        {fishes?.map((fish) => (
+                          <CommandItem
+                            key={fish.id}
+                            value={String(fish.id)}
+                            onSelect={() => {
+                              setSelectedFish(fish);
+                              setOpenFishSelect(false);
+                            }}
+                          >
+                            {fish.name}
+                            <CheckIcon
+                              className={cn(
+                                "ml-auto h-4 w-4",
+                                selectedLake?.id === fish.id
+                                  ? "opacity-100"
+                                  : "opacity-0"
+                              )}
+                            />
+                          </CommandItem>
+                        ))}
+                      </CommandList>
+                    </CommandGroup>
+                  </Command>
+                </PopoverContent>
+              </Popover>
             </div>
             <div className="mb-4 flex w-full justify-between ">
               <label className="font-semibold text-lg ">Pagavimo data: </label>
@@ -165,7 +200,7 @@ const CreateCaughtFishModal: React.FC<CreateCaughtFishModalProps> = (props) => {
                 className="p-2 border rounded"
               />
             </div>
-            <Button onClick={handleSubmit}>Submit</Button>
+            <Button onClick={handleSubmit}>Pateikti</Button>
           </DialogDescription>
         </div>
       </DialogContent>

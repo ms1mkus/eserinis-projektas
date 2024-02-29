@@ -7,21 +7,22 @@ import { CaughtFish } from "../../entities/caughtFish";
 import { AppDataSource } from "../../data-source";
 
 const createCaughtFishEntry = async (req: Request, res: Response) => {
-  const { userId, fishId, lakeId, caughtAt } = req.body;
-
+  const { fishId, lakeId, caughtAt } = req.body;
+  //@ts-ignore
+  const userId = req.session?.passport?.user as string;
   if (!userId || !fishId || !lakeId || !caughtAt) {
     return res.status(400).json({ message: "Missing required fields" });
   }
 
   // Check if caughtAt is earlier than 24 hours from now
-  const now = new Date();
-  const caughtDate = new Date(caughtAt);
+  // const now = new Date();
+  // const caughtDate = new Date(caughtAt);
 
-  if (now.getTime() - caughtDate.getTime() < 24 * 60 * 60 * 1000) {
-    return res
-      .status(400)
-      .json({ message: "caughtAt date should be at least 24 hours ago" });
-  }
+  // if (now.getTime() - caughtDate.getTime() < 24 * 60 * 60 * 1000) {
+  //   return res
+  //     .status(400)
+  //     .json({ message: "caughtAt date should be at least 24 hours ago" });
+  // }
 
   let queryRunner: QueryRunner;
 
@@ -35,9 +36,9 @@ const createCaughtFishEntry = async (req: Request, res: Response) => {
     const lakeRepository = queryRunner.manager.getRepository(Lake);
     const caughtFishRepository = queryRunner.manager.getRepository(CaughtFish);
 
-    const user = await userRepository.findOne(userId);
-    const fish = await fishRepository.findOne(fishId);
-    const lake = await lakeRepository.findOne(lakeId);
+    const user = await userRepository.findOneBy({ id: userId });
+    const fish = await fishRepository.findOneBy({ id: fishId });
+    const lake = await lakeRepository.findOneBy({ id: lakeId });
 
     if (!user || !fish || !lake) {
       throw new Error("User, Fish, or Lake not found");
@@ -48,7 +49,6 @@ const createCaughtFishEntry = async (req: Request, res: Response) => {
     caughtFish.fish = fish;
     caughtFish.lake = lake;
     caughtFish.caughtAt = caughtAt;
-
     await caughtFishRepository.save(caughtFish);
 
     await queryRunner.commitTransaction();
