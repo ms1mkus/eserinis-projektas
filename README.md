@@ -13,6 +13,8 @@
 
 ### Testavimas ir jo rezultatai:
 
+[Тestavimas ir jo rezultatai](./Unit_Tests.pdf)
+
 ### Trumpa naudotojo dokumentacija:
 
 > [!IMPORTANT]
