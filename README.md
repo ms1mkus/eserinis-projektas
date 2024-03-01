@@ -10,25 +10,9 @@
 ## Techninė užduotis:
 
 ## Architektūra:
-|----------------------------|
-|       Frontend             |
-| (TypeScript, HTML, CSS)    |
-|      (Dockerized)          |
-|----------------------------|
-             |
-             v
-|----------------------------|
-|       Backend API          |
-|  Node.js with Express      |
-|      (Dockerized)          |
-|----------------------------|
-             |
-             v
-|----------------------------|
-|       Database             |
-|        PostgreSQL          |
-|      (Dockerized)          |
-|----------------------------|
+![image](https://github.com/ms1mkus/eserinis/assets/73387448/c9805a31-b4a5-4b07-831c-12a807025a93)
+
+
 ## Testavimas ir jo rezultatai:
 
 [Testavimo rezultatai (Ataskaita)](./Unit_Tests.pdf)
