@@ -83,7 +83,7 @@ const CreateCaughtFishModal: React.FC = () => {
       <DialogContent>
         <DialogHeader>
           <DialogTitle className="text-2xl font-bold">
-            Add Caught Fish
+            Pridėti pagautą žuvį
           </DialogTitle>
         </DialogHeader>
 
@@ -95,7 +95,7 @@ const CreateCaughtFishModal: React.FC = () => {
               aria-expanded={open}
               className="w-[200px] justify-between"
             >
-              {selectedLake ? selectedLake.name : "Select Lake..."}
+              {selectedLake ? selectedLake.name : "Parinkite ežerą..."}
               <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
             </Button>
           </PopoverTrigger>
@@ -133,7 +133,7 @@ const CreateCaughtFishModal: React.FC = () => {
         </Popover>
         <DialogDescription className="text-gray-600 p-6">
           <div className="mb-4">
-            <label className="font-semibold text-lg">Fish Name:</label>
+            <label className="font-semibold text-lg">Žuvies pavadinimas:</label>
             <input
               type="text"
               value={fishName}
@@ -142,7 +142,7 @@ const CreateCaughtFishModal: React.FC = () => {
             />
           </div>
           <div className="mb-4">
-            <label className="font-semibold text-lg">Caught Date:</label>
+            <label className="font-semibold text-lg">Pagavimo data:</label>
             <input
               type="datetime-local"
               value={caughtDate}
@@ -150,7 +150,7 @@ const CreateCaughtFishModal: React.FC = () => {
               className="p-2 border rounded"
             />
           </div>
-          <Button onClick={handleSubmit}>Submit</Button>
+          <Button onClick={handleSubmit}>Pridėti</Button>
         </DialogDescription>
       </DialogContent>
     </Dialog>

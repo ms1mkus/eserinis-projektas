@@ -105,21 +105,21 @@ const Map: React.FC = () => {
             </DialogHeader>
             <DialogDescription className="text-gray-600 p-6">
               <div className="mb-4">
-                <span className="font-semibold text-lg">Area:</span>{" "}
+                <span className="font-semibold text-lg">Plotas:</span>{" "}
                 {selectedLake.area} km²
               </div>
               <div className="mb-4">
-                <span className="font-semibold text-lg">Depth:</span>{" "}
+                <span className="font-semibold text-lg">Gylis:</span>{" "}
                 {selectedLake.depth} meters
               </div>
               <div className="mb-4">
-                <span className="font-semibold text-lg">Description:</span>{" "}
+                <span className="font-semibold text-lg">Aprašymas:</span>{" "}
                 {selectedLake.description}
               </div>
 
               <div className="container mx-auto p-4">
                 <h1 className="text-2xl font-bold mb-4">
-                  Siame ezere galite pagaut:
+                  Šiame ežere galite pagauti:
                 </h1>
                 <Carousel>
                   <CarouselContent>

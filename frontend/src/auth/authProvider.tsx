@@ -34,7 +34,7 @@ const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
         setIsAuthenticated(false);
         toast({
           title: "Prisijungimas reikalingas",
-          description: `Norėdami pasiekti šią puslapį, turite prisijungti.`,
+          description: `Norėdami pasiekti šį puslapį, turite prisijungti.`,
           duration: 8000,
           className: "bg-red-50 text-red-600 border border-red-200", // Apply light red background color
         });

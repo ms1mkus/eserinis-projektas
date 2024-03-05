@@ -46,9 +46,9 @@ const Navbar = () => {
   };
 
   // Define the list of navigation items
-  const navItemsLeft = [{ path: "/", label: "Home" }];
+  const navItemsLeft = [{ path: "/", label: "Pradžia" }];
 
-  const navItemsRight = [{ path: "/profile", label: "Profile" }];
+  const navItemsRight = [{ path: "/profile", label: "Profilis" }];
 
   return (
     <div>
@@ -88,7 +88,7 @@ const Navbar = () => {
                   {item.label}
                 </Link>
                 <button className="mx-4" onClick={handleLogout}>
-                  Logout
+                  Atsijungti
                 </button>
               </NavigationMenuItem>
             ))}

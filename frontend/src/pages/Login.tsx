@@ -26,9 +26,9 @@ import { useAuth } from "../auth/authProvider";
 
 const formSchema = z.object({
   username: z.string().min(1, {
-    message: "Username is required",
+    message: "Privaloma įvesti vartotojo vardą",
   }),
-  password: z.string().min(1, { message: "Password is required" }),
+  password: z.string().min(1, { message: "Privaloma įvesti slaptažodį" }),
 });
 
 export default function Login() {
@@ -78,7 +78,7 @@ export default function Login() {
                 <FormItem>
                   <FormLabel>Vartotojo vardas</FormLabel>
                   <FormControl>
-                    <Input placeholder="Iveskite vartotojo varda" {...field} />
+                    <Input placeholder="Įveskite vartotojo vardą" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -89,11 +89,11 @@ export default function Login() {
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Slaptazodis</FormLabel>
+                  <FormLabel>Slaptažodis</FormLabel>
                   <FormControl>
                     <Input
                       type="password"
-                      placeholder="Iveskite slaptazodi"
+                      placeholder="Įveskitę slaptažodį"
                       {...field}
                     />
                   </FormControl>
@@ -103,7 +103,7 @@ export default function Login() {
             />
             {error && <FormMessage>{error}</FormMessage>}
             <a className="block text-sm" href="/register">
-              Neturi Paskyros? Spausk cia
+              Neturi paskyros? Spausk čia.
             </a>
             <Button type="submit">Prisijungti</Button>
           </form>

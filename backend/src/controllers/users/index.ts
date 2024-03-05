@@ -22,14 +22,14 @@ const create = async (req: TypedRequestBody<UsersCreateBody>, res: Response) => 
             where: { username }
         });
         if (usernameExists) {
-            throw createHttpError(409, 'Username already exists');
+            throw createHttpError(409, 'Vartotojo vardas jau užimtas');
         }
 
         const emailExists = await userRepo.exist({
             where: { email }
         });
         if (emailExists) {
-            throw createHttpError(409, 'Email already exists');
+            throw createHttpError(409, 'Elektroninis paštas jau užimtas');
         }
 
         const newUser = new User();

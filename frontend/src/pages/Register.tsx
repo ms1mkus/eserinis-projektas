@@ -26,10 +26,10 @@ import { useNavigate } from "react-router-dom";
 
 const formSchema = z.object({
   username: z.string().min(1, {
-    message: "Username is required",
+    message: "Privaloma įvesti vartotojo vardą",
   }),
-  password: z.string().min(1, { message: "Password is required" }),
-  email: z.string().email({ message: "Email is invalid" }),
+  password: z.string().min(1, { message: "Būtinas slaptažodis" }),
+  email: z.string().email({ message: "Netinkamas elektroninis paštas" }),
 });
 
 export default function Register() {
@@ -65,8 +65,8 @@ export default function Register() {
   return (
     <Card className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96">
       <CardHeader>
-        <CardTitle>Eserinis</CardTitle>
-        <CardDescription>Registration :)</CardDescription>
+        <CardTitle>Ešerinis</CardTitle>
+        <CardDescription>Registracija</CardDescription>
       </CardHeader>
       <CardContent>
         <Form {...form}>
@@ -76,9 +76,9 @@ export default function Register() {
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email</FormLabel>
+                  <FormLabel>Elektroninis paštas</FormLabel>
                   <FormControl>
-                    <Input placeholder="Enter email" {...field} />
+                    <Input placeholder="Įveskite elektroninį paštą" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -89,9 +89,9 @@ export default function Register() {
               name="username"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Username</FormLabel>
+                  <FormLabel>Vartotojo vardas</FormLabel>
                   <FormControl>
-                    <Input placeholder="Enter Username" {...field} />
+                    <Input placeholder="Įveskite vartotojo vardą" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -102,11 +102,11 @@ export default function Register() {
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Password</FormLabel>
+                  <FormLabel>Slaptažodis</FormLabel>
                   <FormControl>
                     <Input
                       type="password"
-                      placeholder="Enter password"
+                      placeholder="Įveskitę slaptažodį"
                       {...field}
                     />
                   </FormControl>
@@ -116,9 +116,9 @@ export default function Register() {
             />
             {error && <FormMessage>{error}</FormMessage>}
             <a className="block text-sm" href="/login">
-              Already have an account? Login here.
+              Jau turite paskyra? Prisijunkite.
             </a>
-            <Button type="submit">Register</Button>
+            <Button type="submit">Registruotis</Button>
           </form>
         </Form>
       </CardContent>
