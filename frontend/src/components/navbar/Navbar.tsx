@@ -2,6 +2,7 @@ import { useState } from "react";
 import { handleLogout } from "@/auth/logout";
 import { Link, useLocation } from "react-router-dom";
 import CreateCaughtFishModal from "../createCaughtFishModal";
+import { useDarkMode } from "@/context/DarkModeContext";
 
 // Define NavigationMenu component
 const NavigationMenu = ({ children, className }) => {
@@ -29,6 +30,7 @@ const Logo = () => {
 const Navbar = () => {
   const location = useLocation();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { darkMode, setDarkMode } = useDarkMode();
 
   const handleOpenModal = () => {
     setIsModalOpen(true);
@@ -36,6 +38,10 @@ const Navbar = () => {
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
+  };
+
+  const handleToggleDarkMode = () => {
+    setDarkMode(!darkMode);
   };
 
   const Modal = ({ isOpen, onClose, children }) => {
@@ -70,6 +76,12 @@ const Navbar = () => {
                 </Link>
               </NavigationMenuItem>
             ))}
+            <button
+              className={`px-2 text-black-800 font-bold hover:text-blue-500 focus:outline-none`}
+              onClick={handleToggleDarkMode} // Call handleToggleDarkMode to toggle dark mode
+            >
+              {darkMode ? "Patamsinti žemėlapį" : "Pašviesinti žemėlapį"}
+            </button>
             <button
               className={`px-2 text-blue-800 font-bold hover:text-blue-500 focus:outline-none`}
               onClick={handleOpenModal}

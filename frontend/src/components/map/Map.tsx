@@ -17,6 +17,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { Lake, useLakes } from "@/context/LakesContext";
+import { useDarkMode } from "@/context/DarkModeContext";
 import axios from "axios";
 
 export type Fish = {
@@ -31,6 +32,7 @@ const Map: React.FC = () => {
   const { lakes, isLoading, error } = useLakes();
   const [selectedLake, setSelectedLake] = useState<Lake | null>(null);
   const [selectedLakeFishes, setSelectedLakeFishes] = useState<any[]>([]);
+  const { darkMode } = useDarkMode();
 
   const fetchLakeData = async () => {
     if (!selectedLake?.id) return;
@@ -56,11 +58,11 @@ const Map: React.FC = () => {
   };
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <div>Kraunasi...</div>;
   }
 
   if (error) {
-    return <div>Error: {error}</div>;
+    return <div>Klaida: {error}</div>;
   }
   console.log(selectedLakeFishes);
   return (
@@ -70,10 +72,18 @@ const Map: React.FC = () => {
         style={{ height: "92vh", width: "100wh", zIndex: 0 }}
         zoom={8}
         scrollWheelZoom={true}
-      >
+        >
         <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        url={
+          darkMode
+            ? "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            : "https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}"
+        }
+        attribution={
+          darkMode
+            ? '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            : '&copy; <a href="https://www.arcgis.com/">Esri</a>'
+        }
         />
         {lakes.map((lake) => (
           <Marker
