@@ -1,3 +1,5 @@
+Pavadinimas: Ešerinis
+
 Prieš pradedant:
 
 susirasykit: https://git-scm.com/downloads ir https://code.visualstudio.com/download 
