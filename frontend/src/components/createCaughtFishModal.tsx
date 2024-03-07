@@ -108,7 +108,7 @@ const CreateCaughtFishModal: React.FC = () => {
                   {lakes?.map((lake) => (
                     <CommandItem
                       key={lake.id}
-                      value={lake.id}
+                      value={Number(lake.id)}
                       onSelect={(currentValue) => {
                         setSelectedLake(lake);
                         fetchFishes(currentValue);

@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { Point } from "geojson";
+import { useAuth } from "@/auth/authProvider";
 
 export type Lake = {
   id: number;
@@ -33,8 +34,17 @@ export const LakesProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  // Use the isAuthenticated value from the useAuth hook
+  const { isAuthenticated } = useAuth();
+
   useEffect(() => {
     const fetchLakes = async () => {
+      // Check if the user is authenticated before fetching lakes
+      if (!isAuthenticated) {
+        setIsLoading(false);
+        return;
+      }
+
       try {
         const response = await axios.get("/lakes");
         setLakes(response.data);
@@ -46,7 +56,7 @@ export const LakesProvider = ({ children }) => {
     };
 
     fetchLakes();
-  }, []);
+  }, [isAuthenticated]); // Add isAuthenticated to the dependency array
 
   const values = {
     lakes,
