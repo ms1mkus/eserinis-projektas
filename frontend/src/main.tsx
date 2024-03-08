@@ -1,10 +1,15 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import App from './App.tsx'
-import './index.css'
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App.tsx";
+import "./index.css";
+import axios from "axios";
+import { Toaster } from "@/components/ui/toaster.tsx";
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
+axios.defaults.baseURL = "http://localhost:8000/api";
+
+ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <App />
-  </React.StrictMode>,
-)
+    <Toaster />
+  </React.StrictMode>
+);

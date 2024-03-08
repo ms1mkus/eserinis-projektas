@@ -64,6 +64,7 @@ REKOMENDUOJU absoliučiai visą gidą perskaityt prieš kažką rašant, daug ku
 ```bash
 yarn docker:up
 // Pirma karta dependencies projekto isirasyt reik su `yarn`, kitus kartus nereikia
+//dependencies - visokios projektui reikalingos bibliotekos, paketai, kad veiktu musu projektas
 yarn dev
 ```
 

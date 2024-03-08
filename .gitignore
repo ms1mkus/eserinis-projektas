@@ -1,20 +1,20 @@
-node_modules
-.vscode
+# Node.js dependencies
+node_modules/
+
+# Visual Studio Code settings
+.vscode/
+
+# Yarn dependencies
 .yarn/*
 
-# build
-build
+# Build output
+build/
 
-# testing
-/coverage
+# Test coverage reports
+coverage/
 
-# misc
-.DS_Store
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
 
+# Logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*

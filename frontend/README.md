@@ -1,6 +1,8 @@
 # React + TypeScript + Vite
 
 Pirma karta projekto dependencies susirasot i kompa paleisdami i konsole `yarn`
+*dependencies - visokios projektui reikalingos bibliotekos, paketai, kad veiktu musu projektas
 
 Susinstaliavus, galit pasileist projekta:`yarn dev`
 
+Musu projekto frontend authentikacija aprasyta: https://dev.to/sanjayttg/jwt-authentication-in-react-with-react-router-1d03

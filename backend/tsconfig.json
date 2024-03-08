@@ -19,11 +19,11 @@
     "experimentalDecorators": true,
 
     /* Linting */
-    "strict": true,
-    "noFallthroughCasesInSwitch": true,
-    "noUnusedLocals": true,
+    "strict": false,
+    "noFallthroughCasesInSwitch": false,
+    "noUnusedLocals": false,
     "noUnusedParameters": false,
-    "typeRoots": ["@types", "./node_modules/@types"],  
+    "typeRoots": ["@types", "./node_modules/@types"]
   },
   "include": ["src/**/*", "__tests__/**/*"],
   "exclude": ["node_modules", "build"],
