@@ -7,11 +7,17 @@ import { CaughtFish } from "../../entities/caughtFish";
 import { AppDataSource } from "../../data-source";
 
 const createCaughtFishEntry = async (req: Request, res: Response) => {
+  if (!req.body?.fishId || !req.body?.lakeId || !req.body?.caughtAt) {
+    return res.status(400).json({ message: "Missing required fields" });
+  }
   const { fishId, lakeId, caughtAt } = req.body;
   //@ts-ignore
   const userId = req.session?.passport?.user as string;
-  if (!userId || !fishId || !lakeId || !caughtAt) {
-    return res.status(400).json({ message: "Missing required fields" });
+
+  if (!userId) {
+    return res
+      .status(401)
+      .json({ message: "Session token is missing or invalid" });
   }
 
   let queryRunner: QueryRunner;
@@ -19,7 +25,7 @@ const createCaughtFishEntry = async (req: Request, res: Response) => {
   try {
     queryRunner = AppDataSource.createQueryRunner();
 
-    await queryRunner.connect(); // Connect to the database
+    await queryRunner.connect();
 
     await queryRunner.startTransaction();
 
@@ -65,7 +71,6 @@ const getFishes = async (req: Request, res: Response) => {
   let queryRunner: QueryRunner;
   try {
     queryRunner = AppDataSource.createQueryRunner();
-    await queryRunner.connect();
     const fishRepository = queryRunner.manager.getRepository(Fish);
 
     const fishes = await fishRepository.find();

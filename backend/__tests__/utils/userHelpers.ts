@@ -1,25 +1,20 @@
-import { AppDataSource } from '../../src/data-source';
-import { User } from '../../src/entities/user';
+import { AppDataSource } from "../../src/data-source";
+import { User } from "../../src/entities/user";
 
-export interface TestUserProps {
-    username?: string;
-    email?: string;
-    password?: string;
+export interface TestUserAttributes {
+  name?: string;
+  emailAddress?: string;
+  password?: string;
 }
 
-/**
- * Create a user in database.
- * @param testUser - User informations. Optional.
- * @returns The created user
- */
-export const createTestUser = async (testUser?: TestUserProps) => {
-    const userRepo = AppDataSource.getRepository(User);
+export const registerTestUser = async (userDetails?: TestUserAttributes) => {
+  const userRepository = AppDataSource.getRepository(User);
 
-    const user = new User();
-    user.username = testUser?.username || 'testUser';
-    user.email = testUser?.email || 'testUser@gmail.com';
-    user.setPassword(testUser?.password || 'password');
+  const newUser = new User();
+  newUser.username = userDetails?.name || "testinis_vartotojas";
+  newUser.email = userDetails?.emailAddress || "testinis_vartotojas@gmail.com";
+  newUser.setPassword(userDetails?.password || "slaptazodis");
 
-    await userRepo.save(user);
-    return user;
+  await userRepository.save(newUser);
+  return newUser;
 };

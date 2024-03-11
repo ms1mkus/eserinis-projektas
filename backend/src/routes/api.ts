@@ -13,6 +13,6 @@ router.use("/users", usersRoutes);
 router.use("/fish", fishRoutes);
 router.use("/lake", lakesRoutes);
 
-router.route("/health").get((req, res) => res.send("povilas"));
+router.route("/health").get((req, res) => res.send("Serveris gyvas"));
 
 export default router;

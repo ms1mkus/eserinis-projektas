@@ -7,24 +7,24 @@ export const validateCreateBody = (body: Partial<UsersCreateBody>) => {
     const { username, email, password } = body;
 
     if (!username) {
-        throw createHttpError(400, 'Username required');
+        throw createHttpError(400, 'Reikalingas vartotojo vardas');
     }
     if (username.length < 5) {
-        throw createHttpError(400, 'Username must contain at least 5 characters');
+        throw createHttpError(400, 'Vartotojo vardas turi būti bent 5 simbolių');
     }
 
     if (!email) {
-        throw createHttpError(400, 'Email required');
+        throw createHttpError(400, 'El. paštas reikalingas');
     }
     if (!isEmail(email)) {
-        throw createHttpError(400, 'Email is invalid');
+        throw createHttpError(400, 'El. paštas yra neteisingas');
     }
 
     if (!password) {
-        throw createHttpError(400, 'Password required');
+        throw createHttpError(400, 'Slaptažodis reikalingas');
     }
     if (password.length < 8) {
-        throw createHttpError(400, 'Password must contain at least 8 characters');
+        throw createHttpError(400, 'Slaptažodis turi būti bent 8 simbolių');
     }
 
     // As the function checked the properties are not missing,

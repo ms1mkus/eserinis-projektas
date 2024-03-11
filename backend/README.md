@@ -74,7 +74,7 @@ yarn dev
 ### Step 2: Test the server
 
 To test the server, you can query `http://localhost:8000/api/health` using [Postman](https://www.postman.com/) or just copy it in the address bar in your browser.
-If the server is running, you should receive `Server is up!` as response.
+If the server is running, you should receive `Serveris gyvas` as response.
 
 ### Step 3: Create the database table
 
@@ -132,7 +132,7 @@ The route prefix is `/api` by default, but you can change this in the .env file.
 
 | Route                       | Method | Description                  |
 | --------------------------- | ------ | ---------------------------- |
-| **/api/health**             | GET    | Show `Server is up!`         |
+| **/api/health**             | GET    | Show `Serveris gyvas`        |
 | **/api/users**              | POST   | Create a user                |
 | **/api/auth/login**         | POST   | Log a user                   |
 | **/api/auth/logout**        | POST   | Logout logged user           |
@@ -362,14 +362,14 @@ This function creates a user and inserts it in the database. You can customize t
 
 Some basic routes are already implemented. Feel free to use, update or delete them at your conveniance.
 
-You can create a user by using the POST route `/api/users`. The query body must contain a username, an email and a password. The username must contain at least 5 characters, the email must be valid and the password must contain at least 8 characters. The user's password is encrypted.
+You can create a user by using the POST route `/api/users`. The query body must contain a username, an email and a password. The Vartotojo vardas turi būti bent 5 simbolių, the email must be valid and the password must contain at least 8 characters. The user's password is encrypted.
 
 You can login by using the POST route `/api/auth/login`. The query body must contain a login and a password. The login can be the email or the username of the user.<br/>
 You can access this route only if you are unauthenticated.
 
 You can logout with the POST route `/api/auth/logout`. You can access this route only if you are authenticated.
 
-You can get your authentication status by using the GET route `/api/auth/authenticated`. If you're authenticated, it will send `You are authenticated` as response. Otherwise, it will send `You are not authenticated`.
+You can get your authentication status by using the GET route `/api/auth/authenticated`. If you're authenticated, it will send `You are authenticated` as response. Otherwise, it will send `Jūs nesate autentifikuotas`.
 
 ---
 

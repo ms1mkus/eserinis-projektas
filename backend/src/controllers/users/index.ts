@@ -6,7 +6,6 @@ import { User } from "../../entities/user";
 import type { UsersCreateBody } from "../../types/routes/users";
 import { validateCreateBody } from "./validators";
 import { QueryRunner } from "typeorm";
-import multer from "multer";
 
 const create = async (
   req: TypedRequestBody<UsersCreateBody>,
@@ -99,7 +98,6 @@ export const getProfileById = async (req, res) => {
 export const updateProfile = async (req, res) => {
   //@ts-ignore
   const userId = req.session?.passport?.user as string;
-  console.log(req.body);
   let queryRunner: QueryRunner;
   try {
     queryRunner = AppDataSource.createQueryRunner();
@@ -129,7 +127,9 @@ export const updateProfile = async (req, res) => {
     });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Failed to update profile" });
+    res
+      .status(500)
+      .json({ message: "Failed to update profile", error: error.message });
   } finally {
     if (queryRunner) {
       await queryRunner.release();
