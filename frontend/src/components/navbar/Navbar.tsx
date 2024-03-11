@@ -57,7 +57,10 @@ const Navbar = () => {
   // Define the list of navigation items
   const navItemsLeft = [{ path: "/", label: "Pradžia" }];
 
-  const navItemsRight = [{ path: "/about", label: "Apie" }];
+  const navItemsRight = [
+    { path: "/about", label: "Apie" },
+    { path: "/profile", label: "Profilis" },
+  ];
 
   return (
     <div>

@@ -6,6 +6,7 @@ import Home from "../pages/Home";
 import Navbar from "@/components/navbar/Navbar";
 import { useAuth } from "@/auth/authProvider";
 import About from "@/pages/About";
+import Profile from "@/pages/Profile";
 
 const RoutesManager = () => {
   const { isAuthenticated } = useAuth();
@@ -38,7 +39,7 @@ const RoutesManager = () => {
           element: (
             <>
               <Navbar />
-              <div>placeholder for User Profile.</div>
+              <Profile />
             </>
           ),
         },

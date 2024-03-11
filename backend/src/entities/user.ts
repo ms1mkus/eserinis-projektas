@@ -39,6 +39,9 @@ export class User {
   @Column({ nullable: false })
   salt!: string;
 
+  @Column({ type: "bytea", nullable: true })
+  imageBlob?: Buffer;
+
   @OneToMany(() => CaughtFish, (caughtFish) => caughtFish.user)
   caughtFishes: CaughtFish[];
 
