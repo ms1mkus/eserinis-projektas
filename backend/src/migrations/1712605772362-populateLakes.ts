@@ -14,6 +14,7 @@ export class PopulateLakes1712605772362 implements MigrationInterface {
         ('Graužės V tvenkinys', 0.04, 5, 'Graužės V tvenkinys', ST_GeographyFromText('SRID=4326;POINT(23.841016 54.889805)')),
         ('Neveronių I tvenkinys', 0.04, 1, 'Neveronių I tvenkinys', ST_GeographyFromText('SRID=4326;POINT(24.11271 54.933043)')),
         ('Neveronių II tvenkinys', 0.06, 2, 'Neveronių II tvenkinys', ST_GeographyFromText('SRID=4326;POINT(24.116788 54.935601)')),
+        ('Povilas', 47.5, 22, 'Didžiausias dirbtinis Povilas Lietuvoje', ST_GeographyFromText('SRID=4326;POINT(23.930605965272406 54.85293996735887)')),
         ('Garliavos I tvenkinys', 0.05, 3.6, 'Garliavos I tvenkinys', ST_GeographyFromText('SRID=4326;POINT(23.891429 54.825523)'))`
     );
   }
