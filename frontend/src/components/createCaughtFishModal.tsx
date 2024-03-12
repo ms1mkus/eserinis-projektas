@@ -98,9 +98,7 @@ const CreateCaughtFishModal: React.FC<CreateCaughtFishModalProps> = (props) => {
         <div>
           <DialogDescription className="text-gray-800 p-6">
             <div className="mb-4 flex w-full justify-between ">
-              <label className="font-semibold text-lg">
-                Parinkite ežerą...
-              </label>
+              <label className="font-semibold text-lg">Parinkite ežerą</label>
               <Popover open={open} onOpenChange={setOpen}>
                 <PopoverTrigger asChild>
                   <Button
