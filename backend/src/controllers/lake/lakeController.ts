@@ -97,6 +97,10 @@ export const getLikesByLakeId = async (req: Request, res: Response) => {
   const userId = req.session?.passport?.user as string;
   let queryRunner: QueryRunner;
 
+  if (!lakeId) {
+    return res.status(400).json({ message: "Lake ID is required" });
+  }
+
   try {
     queryRunner = AppDataSource.createQueryRunner();
     const likeRepository = queryRunner.manager.getRepository(Like);
