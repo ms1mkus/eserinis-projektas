@@ -2,12 +2,18 @@
 Ešerinis
 
 ### Komandos nariai:
-Martynas Šimkus
-Mantas Liutkus
-Povilas Sakalauskas
-Marius Varna
+- Martynas Šimkus
+- Mantas Liutkus
+- Povilas Sakalauskas
+- Marius Varna
 
 ### Techninė užduotis:
+
+### Architektūra:
+
+### Testavimas ir jo rezultatai:
+
+### Trumpa naudotojo dokumentacija:
 
 Prieš pradedant:
 
