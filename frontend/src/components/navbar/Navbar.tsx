@@ -1,10 +1,12 @@
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { handleLogout } from "@/auth/logout";
 import { Link, useLocation } from "react-router-dom";
 import CreateCaughtFishModal from "../createCaughtFishModal";
 import { useDarkMode } from "@/context/DarkModeContext";
 import { HeartFilledIcon } from "@radix-ui/react-icons";
 import { LakesContext } from "@/context/LakesContext";
+import axios from "axios";
+
 
 // Define NavigationMenu component
 const NavigationMenu = ({ children, className }) => {
@@ -36,6 +38,36 @@ const Navbar = () => {
 
   const lakeContext = useContext(LakesContext);
 
+  const [username, setUsername] = useState("");
+  const [previewImage, setPreviewImage] = useState("");
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    // Fetch profile data (username and profile image)
+    fetchProfileData();
+  }, []);
+
+  console.log(previewImage);
+
+  const fetchProfileData = async () => {
+    try {
+      // Fetch profile data from the backend
+      const response = await axios.get("/users/profile");
+      const data = response.data;
+      setUsername(data.username);
+      console.log(response);
+      if (data.imageBlob) {
+        // Convert bytea to Base64
+        setPreviewImage(`data:image/png;base64,${data.imageBlob}`);
+      } else {
+        setPreviewImage("../../public/default_profile.jpg"); // Default image path
+      }
+    } catch (err) {
+      setError("Failed to fetch profile data");
+    }
+  };
+
+
   const handleOpenModal = () => {
     setIsModalOpen(true);
   };
@@ -58,8 +90,15 @@ const Navbar = () => {
   const navItemsLeft = [{ path: "/", label: "Pradžia" }];
 
   const navItemsRight = [
-    { path: "/about", label: "Apie" },
-    { path: "/profile", label: "Profilis" },
+    { path: "/about", label: (
+      <span className="inline-block align-middle"> Apie </span>
+    )},
+    { path: "/profile", label: (
+      <span>
+        {username}
+        {previewImage && <img src={previewImage} alt="Profile" className="w-8 h-8 ml-2 rounded-full inline-block relative align-middle" />}
+      </span>
+    )}
   ];
 
   return (
@@ -72,14 +111,17 @@ const Navbar = () => {
               <NavigationMenuItem className={"my-auto"} key={item.path}>
                 <Link
                   to={item.path}
-                  className={`px-2 text-gray-600 hover:text-gray-900 focus:outline-none ${
-                    location.pathname === item.path
-                      ? "font-bold"
-                      : "font-normal"
-                  }`}
-                >
-                  {item.label}
-                </Link>
+                  className={`py-4 px-2 text-black-800 font-bold hover:text-blue-500 focus:outline-none relative`}
+                  >
+                    <span
+                      className={`${
+                        location.pathname === item.path
+                          ? "absolute bottom-2 left-0 w-full border-b-2 border-blue-500"
+                          : ""
+                      }`}
+                    ></span>
+                    {item.label}
+              </Link>
               </NavigationMenuItem>
             ))}
             <button
@@ -113,18 +155,22 @@ const Navbar = () => {
               <NavigationMenuItem className={""} key={item.path}>
                 <Link
                   to={item.path}
-                  className={`py-4 px-2 text-gray-600 hover:text-gray-900 focus:outline-none ${
-                    location.pathname === item.path
-                      ? "font-bold"
-                      : "font-normal"
-                  }`}
-                >
-                  {item.label}
-                </Link>
+                  className={`py-4 px-2 text-black-800 font-bold hover:text-blue-500 focus:outline-none relative `}
+                  >
+                    <span
+                      className={`${
+                        location.pathname === item.path
+                          ? "absolute bottom-2 left-0 w-full border-b-2 border-blue-500"
+                          : ""
+                      }`}
+                    ></span>
+                    {item.label}
+              </Link>
+
               </NavigationMenuItem>
             ))}
             <button
-              className="mx-4 font-bold text-gray-600 hover:text-gray-900 focus:outline-none"
+              className="mx-4  text-black-800 font-bold hover:text-blue-500 focus:outline-none"
               onClick={handleLogout}
             >
               Atsijungti
