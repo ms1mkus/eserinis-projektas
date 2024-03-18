@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { MapContainer, Marker, TileLayer } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
-import {Icon, icon, marker} from 'leaflet'
+import { Icon, icon, marker } from "leaflet";
 import {
   Dialog,
   DialogContent,
@@ -29,21 +29,19 @@ export type Fish = {
   count: number;
 };
 
-const likedMarker = new Icon ({
-  iconUrl : "../../public/marker-liked.png",
-  iconSize : [32,32], // size of the icon
-  iconAnchor : [16, 32], // point of the icon which will correspond to marker's location
-  popupAnchor : [-3, -76] // point from which the popup should open relative to the iconAnchor
+const likedMarker = new Icon({
+  iconUrl: "../../public/marker-liked.png",
+  iconSize: [32, 32], // size of the icon
+  iconAnchor: [16, 32], // point of the icon which will correspond to marker's location
+  popupAnchor: [-3, -76], // point from which the popup should open relative to the iconAnchor
+});
 
-})
-
-const normalMarker = new Icon ({
-  iconUrl : "../../public/marker.png",
-  iconSize : [25,41], // size of the icon
-  iconAnchor : [12, 41], // point of the icon which will correspond to marker's location
-  popupAnchor : [-3, -76] // point from which the popup should open relative to the iconAnchor
-
-})
+const normalMarker = new Icon({
+  iconUrl: "../../public/marker.png",
+  iconSize: [25, 41], // size of the icon
+  iconAnchor: [12, 41], // point of the icon which will correspond to marker's location
+  popupAnchor: [-3, -76], // point from which the popup should open relative to the iconAnchor
+});
 
 const Map: React.FC = () => {
   const { lakes, isLoading, error, lovedOnly, setLakes } = useLakes();
@@ -52,6 +50,7 @@ const Map: React.FC = () => {
   const { darkMode } = useDarkMode();
   const [isLoved, setLoved] = useState(false);
   const [likedUsers, setLikedUsers] = useState<string[]>([]);
+  const [showLikedUsersModal, setShowLikedUsersModal] = useState(false);
 
   const fetchLakeData = async () => {
     setLoved(false);
@@ -142,7 +141,7 @@ const Map: React.FC = () => {
         />
         {shownLakes.map((lake) => (
           <Marker
-            icon = {lake.isLiked ? likedMarker : normalMarker}
+            icon={lake.isLiked ? likedMarker : normalMarker}
             key={lake.id}
             position={[
               lake.location.coordinates[1],
@@ -159,12 +158,17 @@ const Map: React.FC = () => {
       {selectedLake && (
         <Dialog open={true} onOpenChange={closeModal}>
           <DialogContent>
-            <DialogHeader>
+            <DialogHeader className="mt-4">
               <DialogTitle className=" flex flex-row items-center justify-between">
                 <h1 className="text-3xl">{selectedLake.name}</h1>
-                <div>
+                <div className="-mr-4">
                   <Heart isClick={isLoved} onClick={toggleLike} />
-                  <p className="-mt-4 text-blue-800 text-center">
+                  <p
+                    onClick={() => {
+                      setShowLikedUsersModal(true);
+                    }}
+                    className="-mt-4 text-blue-800 text-center cursor-pointer"
+                  >
                     {likedUsers.length > 0 &&
                       `${likedUsers.length} ${fishersText()}`}
                   </p>
@@ -249,6 +253,34 @@ const Map: React.FC = () => {
                   </div>
                 )}
               </div>
+            </DialogDescription>
+          </DialogContent>
+        </Dialog>
+      )}
+      {showLikedUsersModal && (
+        <Dialog
+          open={true}
+          onOpenChange={() => setShowLikedUsersModal(!showLikedUsersModal)}
+        >
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle className="text-2xl">Patiko:</DialogTitle>
+            </DialogHeader>
+            <DialogDescription className="text-black p-6">
+              <ul className="divide-y divide-gray-200">
+                {likedUsers.map((user, index) => (
+                  <li key={index} className="py-4 flex items-center">
+                    <img
+                      src={`data:image/png;base64,${user.avatar}`}
+                      alt="Profile"
+                      className="w-16 h-16 mr-4 rounded-full"
+                    />
+                    <div className="flex flex-col">
+                      <span className="text-xl">{user.name}</span>
+                    </div>
+                  </li>
+                ))}
+              </ul>
             </DialogDescription>
           </DialogContent>
         </Dialog>
