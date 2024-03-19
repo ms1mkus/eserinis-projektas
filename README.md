@@ -10,7 +10,25 @@
 ## Techninė užduotis:
 
 ## Architektūra:
-
+|----------------------------|
+|       Frontend             |
+| (TypeScript, HTML, CSS)    |
+|      (Dockerized)          |
+|----------------------------|
+             |
+             v
+|----------------------------|
+|       Backend API          |
+|  Node.js with Express      |
+|      (Dockerized)          |
+|----------------------------|
+             |
+             v
+|----------------------------|
+|       Database             |
+|        PostgreSQL          |
+|      (Dockerized)          |
+|----------------------------|
 ## Testavimas ir jo rezultatai:
 
 [Testavimo rezultatai (Ataskaita)](./Unit_Tests.pdf)
