@@ -44,17 +44,17 @@ describe('User Routes', () => {
     });
 
     test('Should fail user creation with invalid username, email, or password', async () => {
-        const username = 'netikrasVartotojas';
-        const email = 'netikrasVartotojas@gmail.com';
-        const password = 'netikrasVartotojasSlaptazodis';
+        const username = 'testVartotojas';
+        const email = 'testVartotojas@gmail.com';
+        const password = 'testVartotojasSlaptazodis';
 
         const testCases = [
             { input: { email, password }, expectedMessage: 'Reikalingas vartotojo vardas' },
             { input: { username, password }, expectedMessage: 'El. paštas reikalingas' },
             { input: { username, email }, expectedMessage: 'Slaptažodis reikalingas' },
-            { input: { username: 'netikras', email, password }, expectedMessage: 'Vartotojo vardas turi būti bent 5 simbolių' },
-            { input: { username, email: 'netikras', password }, expectedMessage: 'El. paštas yra neteisingas' },
-            { input: { username, email, password: 'netikras' }, expectedMessage: 'Slaptažodis turi būti bent 8 simbolių' },
+            { input: { username: 'a', email, password }, expectedMessage: 'Vartotojo vardas turi būti bent 5 simbolių' },
+            { input: { username, email: 'neteising_formatas', password }, expectedMessage: 'El. paštas yra neteisingas' },
+            { input: { username, email, password: 'abc' }, expectedMessage: 'Slaptažodis turi būti bent 8 simbolių' },
         ];
 
         for (const { input, expectedMessage } of testCases) {

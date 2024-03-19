@@ -10,7 +10,7 @@ export const validateLoginBody = (body: Partial<AuthLoginBody>) => {
     }
 
     if (!password) {
-        throw createHttpError(400, 'Password required');
+        throw createHttpError(400, 'Slaptažodis reikalingas');
     }
 
     // As the function checked the properties are not missing,

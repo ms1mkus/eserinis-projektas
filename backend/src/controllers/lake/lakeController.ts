@@ -110,8 +110,6 @@ export const getLikesByLakeId = async (req: Request, res: Response) => {
       where: { lake: { id: lakeId }, user: { id: userId } },
     });
 
-    console.log(hasUserLiked);
-
     const likedUsers = likes.map((like) => ({
       name: like.user.username,
       avatar: like.user?.imageBlob

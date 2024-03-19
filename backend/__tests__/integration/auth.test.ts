@@ -83,7 +83,7 @@ describe('Auth routes', () => {
         const res2 = await request(server).post('/api/auth/login').send({ login: 'login' });
 
         expect(res2.statusCode).toEqual(400);
-        expect(res2.body.message).toEqual('Password required');
+        expect(res2.body.message).toEqual('Slaptažodis reikalingas');
     });
 
     test('Throw an error if authenticated user tries to login', async () => {

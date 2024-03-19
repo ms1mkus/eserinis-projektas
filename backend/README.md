@@ -362,7 +362,7 @@ This function creates a user and inserts it in the database. You can customize t
 
 Some basic routes are already implemented. Feel free to use, update or delete them at your conveniance.
 
-You can create a user by using the POST route `/api/users`. The query body must contain a username, an email and a password. The username must contain at least 5 characters, the email must be valid and the password must contain at least 8 characters. The user's password is encrypted.
+You can create a user by using the POST route `/api/users`. The query body must contain a username, an email and a password. The Vartotojo vardas turi būti bent 5 simbolių, the email must be valid and the password must contain at least 8 characters. The user's password is encrypted.
 
 You can login by using the POST route `/api/auth/login`. The query body must contain a login and a password. The login can be the email or the username of the user.<br/>
 You can access this route only if you are unauthenticated.
