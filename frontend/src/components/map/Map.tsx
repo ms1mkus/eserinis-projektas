@@ -273,7 +273,7 @@ const Map: React.FC = () => {
                     <img
                       src={`data:image/png;base64,${user.avatar}`}
                       alt="Profile"
-                      className="w-16 h-16 mr-4 rounded-full"
+                      className="w-24 h-24 mr-4 rounded-full"
                     />
                     <div className="flex flex-col">
                       <span className="text-xl">{user.name}</span>
