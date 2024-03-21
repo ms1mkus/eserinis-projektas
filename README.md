@@ -1,4 +1,4 @@
-> [!TIP]
+> [!NOTE]
 > Kaunas University of Technology | 2024
 
 ## Pavadinimas:
