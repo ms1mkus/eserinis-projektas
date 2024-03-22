@@ -1,3 +1,6 @@
+> [!TIP]
+> Kaunas University of Technology | 2024
+
 ## Pavadinimas:
   **Ešerinis**
 
