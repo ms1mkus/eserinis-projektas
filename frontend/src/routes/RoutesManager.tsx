@@ -1,10 +1,10 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { ProtectedRoute } from "./ProtectedRoute";
 import Login from "../pages/Login";
-import Logout from "../pages/Logout";
 import Register from "../pages/Register";
-import { useAuth } from "../auth/authProvider";
 import Home from "../pages/Home";
+import Navbar from "@/components/navbar/Navbar";
+import { useAuth } from "@/auth/authProvider";
 
 const RoutesManager = () => {
   const { isAuthenticated } = useAuth();
@@ -29,15 +29,16 @@ const RoutesManager = () => {
       children: [
         {
           path: "/",
-          element: <Home />,
+          element: (
+            <>
+              <Navbar />
+              <Home />
+            </>
+          ),
         },
         {
           path: "/profile",
           element: <div>User Profile.</div>,
-        },
-        {
-          path: "/logout",
-          element: <Logout />,
         },
       ],
     },

@@ -45,7 +45,10 @@ const logout = (req: Request, res: Response, next: NextFunction) => {
     if (err) {
       return next(err);
     }
-    req.session.destroy(() => res.send());
+    req.session.destroy(() => {
+      res.clearCookie("connect.sid");
+      res.send();
+    });
   });
 };
 
