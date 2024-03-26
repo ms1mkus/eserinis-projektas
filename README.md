@@ -1,21 +1,21 @@
-### Pavadinimas:
+## Pavadinimas:
   **Ešerinis**
 
-### Komandos nariai:
+## Komandos nariai:
   - Martynas Šimkus
   - Mantas Liutkus
   - Povilas Sakalauskas
   - Marius Varna
 
-### Techninė užduotis:
+## Techninė užduotis:
 
-### Architektūra:
+## Architektūra:
 
-### Testavimas ir jo rezultatai:
+## Testavimas ir jo rezultatai:
 
 [Testavimo rezultatai (Ataskaita)](./Unit_Tests.pdf)
 
-### Trumpa naudotojo dokumentacija:
+## Trumpa naudotojo dokumentacija:
 
 > [!IMPORTANT]
 > Prieš pradedant susirašyti: https://git-scm.com/downloads ir https://code.visualstudio.com/download 
