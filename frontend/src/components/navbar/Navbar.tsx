@@ -87,7 +87,11 @@ const Navbar = () => {
             </button>
 
             <button
-              className={`px-2 text-red-800 font-bold hover:text-blue-500 focus:outline-none flex flex-row justify-between items-center`}
+              className={
+                lakeContext.lovedOnly
+                  ? `px-2 text-red-800 font-bold hover:text-blue-500 focus:outline-none flex flex-row justify-between items-center`
+                  : `px-2 text-black-800 font-bold hover:text-blue-500 focus:outline-none flex flex-row justify-between items-center`
+              }
               onClick={() => {
                 lakeContext.setLovedOnly(!lakeContext.lovedOnly);
               }}

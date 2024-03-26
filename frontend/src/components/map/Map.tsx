@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { MapContainer, Marker, TileLayer } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
+import {Icon, icon, marker} from 'leaflet'
 import {
   Dialog,
   DialogContent,
@@ -27,6 +28,22 @@ export type Fish = {
   name: string;
   count: number;
 };
+
+const likedMarker = new Icon ({
+  iconUrl : "../../public/marker-liked.png",
+  iconSize : [32,32], // size of the icon
+  iconAnchor : [16, 32], // point of the icon which will correspond to marker's location
+  popupAnchor : [-3, -76] // point from which the popup should open relative to the iconAnchor
+
+})
+
+const normalMarker = new Icon ({
+  iconUrl : "../../public/marker.png",
+  iconSize : [25,41], // size of the icon
+  iconAnchor : [12, 41], // point of the icon which will correspond to marker's location
+  popupAnchor : [-3, -76] // point from which the popup should open relative to the iconAnchor
+
+})
 
 const Map: React.FC = () => {
   const { lakes, isLoading, error, lovedOnly, setLakes } = useLakes();
@@ -125,6 +142,7 @@ const Map: React.FC = () => {
         />
         {shownLakes.map((lake) => (
           <Marker
+            icon = {lake.isLiked ? likedMarker : normalMarker}
             key={lake.id}
             position={[
               lake.location.coordinates[1],
