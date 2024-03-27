@@ -23,31 +23,9 @@ export type Fish = {
   id: number;
   description: string;
   name: string;
+  count: number;
 };
 
-//MOCK FRONT END DATA
-const mockFishes: Fish[] = [
-  {
-    id: 1,
-    description: "",
-    name: "LYDEKA",
-  },
-  {
-    id: 1,
-    description: "",
-    name: "EŠERYS",
-  },
-  {
-    id: 1,
-    description: "",
-    name: "ŠAMAS",
-  },
-  {
-    id: 1,
-    description: "",
-    name: "KARPIS",
-  },
-];
 
 const Map: React.FC = () => {
   const { lakes, isLoading, error } = useLakes();
@@ -158,7 +136,13 @@ const Map: React.FC = () => {
                                   {fish.name}
                                 </p>
                                 <br />
-                                <p>Si zuvis buvo pagaut: {fish.count} kartu</p>
+                                {parseInt(fish.count) % 10 === 0 || (parseInt(fish.count) > 10 && parseInt(fish.count) < 20) ? (
+                                  <p>Ši žuvis buvo pagauta: {fish.count} kartų</p>
+                                ) : (parseInt(fish.count) % 10 === 1 ? (
+                                  <p>Ši žuvis buvo pagauta: {fish.count} kartą</p>
+                                ) : (
+                                  <p>Ši žuvis buvo pagauta: {fish.count} kartus</p>
+                                ))}
                               </div>
                             </div>
                           </CarouselItem>
