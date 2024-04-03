@@ -5,15 +5,15 @@ import type { Express } from 'express';
 
 import createServer from '../../src/config/server';
 import { AppDataSource } from '../../src/data-source';
-import type { TestUserProps } from './userHelpers';
-import { createTestUser } from './userHelpers';
+import type { TestUserAttributes } from './userHelpers';
+import { registerTestUser } from './userHelpers';
 
 interface OverrideExpressOptions {
     logout?: (cb: any) => unknown;
     logIn?: (user: any, cb: any) => unknown;
 }
 
-const overrideExpressServer = (server: Express, overrideExpressOptions: OverrideExpressOptions) => {
+const setupExpressOverrides = (server: Express, overrideExpressOptions: OverrideExpressOptions) => {
     if (overrideExpressOptions.logout) {
         server.request.logOut = overrideExpressOptions.logout;
     }
@@ -23,17 +23,11 @@ const overrideExpressServer = (server: Express, overrideExpressOptions: Override
     return server;
 };
 
-/**
- * Create a test server.
- * @param port - Port used to listen server. Default 7777. Optional.
- * @param preventDatabaseConnection - If true, database connection is not initialized. Default false. Optional.
- * @param overrideExpressOptions - Object used to override Express. Optional.
- * @returns The created test server.
- */
-export const createTestServer = async (port = 7777, preventDatabaseConnection = false, overrideExpressOptions?: OverrideExpressOptions) => {
+//LAB WORK 1 SET UP
+export const setupServer = async (port = 7777, preventDatabaseConnection = false, overrideExpressOptions?: OverrideExpressOptions) => {
     const server = createServer();
     if (overrideExpressOptions) {
-        overrideExpressServer(server, overrideExpressOptions);
+        setupExpressOverrides(server, overrideExpressOptions);
     }
 
     if (!preventDatabaseConnection) {
@@ -43,30 +37,21 @@ export const createTestServer = async (port = 7777, preventDatabaseConnection = 
     return server.listen(port);
 };
 
-/**
- * Close the database connection.
- */
-export const closeDatabase = async () => {
+export const teardownDatabase = async () => {
     await AppDataSource.destroy();
 };
 
-/**
- * Clear the database data.
- */
-export const clearDatabase = async () => {
-    const entities = AppDataSource.entityMetadatas.map((entity) => `"${entity.tableName}"`).join(', ');
-    await AppDataSource.query(`TRUNCATE ${entities} CASCADE;`);
+//LAB WORK 1 TEARN DOWN PHASE
+export const resetDatabase = async () => {
+    const tables = AppDataSource.entityMetadatas.map((entity) => `"${entity.tableName}"`).join(', ');
+    await AppDataSource.query(`TRUNCATE ${tables} CASCADE;`);
 };
 
-/**
- * Create an authenticated test agent. A test agent allows to maintain session between multiple requests.
- * @param server - The server used by the agent.
- * @param testUser - The authenticated user informations. Optional.
- * @returns The created agent.
- */
-export const createAuthenticatedAgent = async (server: Server, testUser?: TestUserProps) => {
+
+//LAB WORK 1 SET UP (SETUP AUTHENTICATED USER)
+export const createAuthenticatedAgent = async (server: Server, testUser?: TestUserAttributes) => {
     const userAgent = request.agent(server);
-    const user = await createTestUser(testUser);
+    const user = await registerTestUser(testUser);
     await userAgent.post('/api/auth/login').send({ login: user.username, password: testUser?.password || 'password' });
 
     return { agent: userAgent, user };

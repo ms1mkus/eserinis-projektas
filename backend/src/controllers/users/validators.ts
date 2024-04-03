@@ -7,7 +7,7 @@ export const validateCreateBody = (body: Partial<UsersCreateBody>) => {
     const { username, email, password } = body;
 
     if (!username) {
-        throw createHttpError(400, 'Username required');
+        throw createHttpError(400, 'Reikalingas vartotojo vardas');
     }
     if (username.length < 5) {
         throw createHttpError(400, 'Username must contain at least 5 characters');

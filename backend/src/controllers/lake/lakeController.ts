@@ -112,7 +112,12 @@ export const getLikesByLakeId = async (req: Request, res: Response) => {
 
     console.log(hasUserLiked);
 
-    const likedUsers = likes.map((like) => like.user.username);
+    const likedUsers = likes.map((like) => ({
+      name: like.user.username,
+      avatar: like.user?.imageBlob
+        ? like.user.imageBlob.toString("base64")
+        : null,
+    }));
 
     return res.status(200).json({
       likedUsers: likedUsers,

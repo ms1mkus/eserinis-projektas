@@ -92,10 +92,10 @@ function Profile() {
                   className="object-cover w-full h-full"
                 />
               </div>
-              <div className="block pl-2 font-semibold text-2xl self-start text-blue-700">
+              <div className="block pl-2 font-semibold text-2xl self-start text-black">
                 <h2 className="leading-relaxed">{username}</h2>
-                <p className="text-sm text-blue-500 font-normal leading-relaxed">
-                  Update your profile
+                <p className="text-sm font-normal leading-relaxed">
+                  Atnaujinkite savo profilį
                 </p>
               </div>
             </div>
@@ -106,40 +106,40 @@ function Profile() {
               <div className="relative">
                 <label
                   htmlFor="username"
-                  className="leading-7 text-sm text-blue-600"
+                  className="leading-7 text-sm text-black"
                 >
-                  Username
+                  Vardas
                 </label>
                 <input
                   type="text"
                   id="username"
                   value={username}
                   onChange={handleUsernameChange}
-                  className="w-full bg-white rounded border border-blue-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 text-base outline-none text-blue-700 py-2 px-4 leading-8 transition-colors duration-200 ease-in-out"
+                  className="w-full bg-white rounded border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 text-base outline-none text-black py-2 px-4 leading-8 transition-colors duration-200 ease-in-out"
                   required
                 />
               </div>
               <div className="relative">
                 <label
                   htmlFor="profileImage"
-                  className="leading-7 text-sm text-blue-600"
+                  className="leading-7 text-sm text-black"
                 >
-                  Profile Image
+                  Profilio nuotrauka
                 </label>
                 <input
                   type="file"
                   id="profileImage"
                   accept="image/*"
                   onChange={handleProfileImageChange}
-                  className="w-full bg-white rounded border border-blue-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 text-base outline-none text-blue-700 py-2 px-4 leading-8 transition-colors duration-200 ease-in-out"
+                  className="w-full bg-white rounded border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 text-base outline-none text-black py-2 px-4 leading-8 transition-colors duration-200 ease-in-out"
                 />
               </div>
               <button
                 type="submit"
                 disabled={isLoading}
-                className="text-white bg-blue-500 border-0 py-2 px-8 focus:outline-none hover:bg-blue-600 rounded text-lg"
+                className="text-white bg-black border-0 py-2 px-8 focus:outline-none hover:bg-gray-800 rounded-lg text-lg"
               >
-                {isLoading ? "Updating..." : "Update"}
+                {isLoading ? "Saugoma..." : "Išsaugoti"}
               </button>
             </form>
           </div>
