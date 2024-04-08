@@ -132,7 +132,7 @@ The route prefix is `/api` by default, but you can change this in the .env file.
 
 | Route                       | Method | Description                  |
 | --------------------------- | ------ | ---------------------------- |
-| **/api/health**             | GET    | Show `Serveris gyvas`         |
+| **/api/health**             | GET    | Show `Serveris gyvas`        |
 | **/api/users**              | POST   | Create a user                |
 | **/api/auth/login**         | POST   | Log a user                   |
 | **/api/auth/logout**        | POST   | Logout logged user           |
@@ -369,7 +369,7 @@ You can access this route only if you are unauthenticated.
 
 You can logout with the POST route `/api/auth/logout`. You can access this route only if you are authenticated.
 
-You can get your authentication status by using the GET route `/api/auth/authenticated`. If you're authenticated, it will send `You are authenticated` as response. Otherwise, it will send `You are not authenticated`.
+You can get your authentication status by using the GET route `/api/auth/authenticated`. If you're authenticated, it will send `You are authenticated` as response. Otherwise, it will send `Jūs nesate autentifikuotas`.
 
 ---
 

@@ -6,7 +6,6 @@ import { User } from "../../entities/user";
 import type { UsersCreateBody } from "../../types/routes/users";
 import { validateCreateBody } from "./validators";
 import { QueryRunner } from "typeorm";
-import multer from "multer";
 
 const create = async (
   req: TypedRequestBody<UsersCreateBody>,
