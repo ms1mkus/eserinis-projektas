@@ -7,7 +7,6 @@ import { HeartFilledIcon } from "@radix-ui/react-icons";
 import { LakesContext } from "@/context/LakesContext";
 import axios from "axios";
 
-
 // Define NavigationMenu component
 const NavigationMenu = ({ children, className }) => {
   return <div className={`NavigationMenu ${className}`}>{children}</div>;
@@ -65,7 +64,6 @@ const Navbar = () => {
     }
   };
 
-
   const handleOpenModal = () => {
     setIsModalOpen(true);
   };
@@ -88,15 +86,25 @@ const Navbar = () => {
   const navItemsLeft = [{ path: "/", label: "Pradžia" }];
 
   const navItemsRight = [
-    { path: "/about", label: (
-      <span className="inline-block align-middle"> Apie </span>
-    )},
-    { path: "/profile", label: (
-      <span>
-        {username}
-        {previewImage && <img src={previewImage} alt="Profile" className="w-8 h-8 ml-2 rounded-full inline-block relative align-middle" />}
-      </span>
-    )}
+    {
+      path: "/about",
+      label: <span className="inline-block align-middle"> Apie </span>,
+    },
+    {
+      path: "/profile",
+      label: (
+        <span>
+          {username}
+          {previewImage && (
+            <img
+              src={previewImage}
+              alt="Profile"
+              className="w-8 h-8 ml-2 rounded-full inline-block relative align-middle"
+            />
+          )}
+        </span>
+      ),
+    },
   ];
 
   return (
@@ -110,16 +118,16 @@ const Navbar = () => {
                 <Link
                   to={item.path}
                   className={`py-4 px-2 text-black-800 font-bold hover:text-blue-500 focus:outline-none relative`}
-                  >
-                    <span
-                      className={`${
-                        location.pathname === item.path
-                          ? "absolute bottom-2 left-0 w-full border-b-2 border-blue-500"
-                          : ""
-                      }`}
-                    ></span>
-                    {item.label}
-              </Link>
+                >
+                  <span
+                    className={`${
+                      location.pathname === item.path
+                        ? "absolute bottom-2 left-0 w-full border-b-2 border-blue-500"
+                        : ""
+                    }`}
+                  ></span>
+                  {item.label}
+                </Link>
               </NavigationMenuItem>
             ))}
             <button
@@ -154,21 +162,20 @@ const Navbar = () => {
                 <Link
                   to={item.path}
                   className={`py-4 px-2 text-black-800 font-bold hover:text-blue-500 focus:outline-none relative `}
-                  >
-                    <span
-                      className={`${
-                        location.pathname === item.path
-                          ? "absolute bottom-2 left-0 w-full border-b-2 border-blue-500"
-                          : ""
-                      }`}
-                    ></span>
-                    {item.label}
-              </Link>
-
+                >
+                  <span
+                    className={`${
+                      location.pathname === item.path
+                        ? "absolute bottom-2 left-0 w-full border-b-2 border-blue-500"
+                        : ""
+                    }`}
+                  ></span>
+                  {item.label}
+                </Link>
               </NavigationMenuItem>
             ))}
             <button
-              className="mx-4  text-black-800 font-bold hover:text-blue-500 focus:outline-none"
+              className="mx-4  text-red-600 font-bold hover:text-blue-500 focus:outline-none"
               onClick={handleLogout}
             >
               Atsijungti
