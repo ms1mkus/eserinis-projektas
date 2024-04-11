@@ -95,7 +95,7 @@ function Profile() {
               <div className="block pl-2 font-semibold text-2xl self-start text-blue-700">
                 <h2 className="leading-relaxed">{username}</h2>
                 <p className="text-sm text-blue-500 font-normal leading-relaxed">
-                  Update your profile
+                  Atnaujinkite savo profilį
                 </p>
               </div>
             </div>
@@ -108,7 +108,7 @@ function Profile() {
                   htmlFor="username"
                   className="leading-7 text-sm text-blue-600"
                 >
-                  Username
+                  Vardas
                 </label>
                 <input
                   type="text"
@@ -124,7 +124,7 @@ function Profile() {
                   htmlFor="profileImage"
                   className="leading-7 text-sm text-blue-600"
                 >
-                  Profile Image
+                  Profilio nuotrauka
                 </label>
                 <input
                   type="file"
@@ -139,7 +139,7 @@ function Profile() {
                 disabled={isLoading}
                 className="text-white bg-blue-500 border-0 py-2 px-8 focus:outline-none hover:bg-blue-600 rounded text-lg"
               >
-                {isLoading ? "Updating..." : "Update"}
+                {isLoading ? "Saugoma..." : "Išsaugoti"}
               </button>
             </form>
           </div>
