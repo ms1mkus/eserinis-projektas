@@ -25,6 +25,7 @@ import {
 import { CaretSortIcon, CheckIcon } from "@radix-ui/react-icons";
 
 import { cn } from "@/lib/utils";
+import { useToast } from "./ui/use-toast";
 
 type CreateCaughtFishModalProps = {
   handleCloseModal: () => void;
@@ -41,6 +42,7 @@ const CreateCaughtFishModal: React.FC<CreateCaughtFishModalProps> = (props) => {
   const [openFishSelect, setOpenFishSelect] = useState(false);
   const [selectedLake, setSelectedLake] = useState<any>(null);
   const [selectedFish, setSelectedFish] = useState<any>(null);
+  const { toast } = useToast();
 
   useEffect(() => {
     if (lakes && lakes.length > 0) {
@@ -71,6 +73,12 @@ const CreateCaughtFishModal: React.FC<CreateCaughtFishModalProps> = (props) => {
         lakeId: selectedLake.id,
         caughtAt: caughtDate,
       });
+      toast({
+        title: "Zuvis sekmingai irasyta",
+        duration: 8000,
+        className: "bg-blue-50 text-blue-600 border border-blue-200", // Apply light red background color
+      });
+      closeModal();
 
       if (response.status === 201) {
         // closeModal(); // Assuming you have a closeModal function
