@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { MapContainer, Marker, TileLayer } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import {
@@ -17,6 +17,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { Lake, useLakes } from "@/context/LakesContext";
+import axios from "axios";
 
 export type Fish = {
   id: number;
@@ -51,6 +52,22 @@ const mockFishes: Fish[] = [
 const Map: React.FC = () => {
   const { lakes, isLoading, error } = useLakes();
   const [selectedLake, setSelectedLake] = useState<Lake | null>(null);
+  const [selectedLakeData, setSelectedLakeData] = useState<Lake | null>(null);
+
+  const fetchLakeData = async () => {
+    if (!selectedLake?.id) return;
+    try {
+      const response = await axios.get(`/lake/${selectedLake.id}`);
+      setSelectedLakeData(response.data);
+      // Handle the response and update state accordingly
+    } catch (error) {
+      console.error("Error fetching fishes:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchLakeData();
+  }, [selectedLake?.id]);
 
   const openModal = (lake: Lake) => {
     setSelectedLake(lake);
@@ -118,9 +135,9 @@ const Map: React.FC = () => {
               </div>
 
               <div className="container mx-auto p-4">
-                <h1 className="text-2xl font-bold mb-4">
+                <p className="text-2xl font-bold mb-4">
                   Šiame ežere galite pagauti:
-                </h1>
+                </p>
                 <Carousel>
                   <CarouselContent>
                     {mockFishes.map((fish) => (
@@ -134,9 +151,7 @@ const Map: React.FC = () => {
                             alt={fish.name}
                             className="w-full h-32 object-cover rounded-lg mb-4"
                           />
-                          <h2 className="text-xl font-semibold ">
-                            {fish.name}
-                          </h2>
+                          <p className="text-xl font-semibold ">{fish.name}</p>
                         </div>
                       </CarouselItem>
                     ))}

@@ -65,8 +65,8 @@ export default function Register() {
   return (
     <Card className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96">
       <CardHeader>
-        <CardTitle>Ešerinis</CardTitle>
-        <CardDescription>Registracija</CardDescription>
+        <img src="../../../public/logo.png" width={500} />
+        <h1 className="mx-auto font-bold text-gray-900">Registracija</h1>
       </CardHeader>
       <CardContent>
         <Form {...form}>
@@ -78,7 +78,10 @@ export default function Register() {
                 <FormItem>
                   <FormLabel>Elektroninis paštas</FormLabel>
                   <FormControl>
-                    <Input placeholder="Įveskite elektroninį paštą" {...field} />
+                    <Input
+                      placeholder="Įveskite elektroninį paštą"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

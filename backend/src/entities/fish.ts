@@ -20,9 +20,6 @@ export class Fish {
   @Column({ length: 100 })
   name: string;
 
-  @JoinTable()
-  lakes: Lake[];
-
   @OneToMany(() => CaughtFish, (caughtFish) => caughtFish.fish)
   caughtBy: CaughtFish[];
 }
