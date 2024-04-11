@@ -26,16 +26,20 @@ import { CaretSortIcon, CheckIcon } from "@radix-ui/react-icons";
 
 import { cn } from "@/lib/utils";
 
-const CreateCaughtFishModal: React.FC = () => {
+type CreateCaughtFishModalProps = {
+  handleCloseModal: () => void;
+};
+
+const CreateCaughtFishModal: React.FC<CreateCaughtFishModalProps> = (props) => {
   const { lakes, isLoading, error } = useLakes();
   const [fishName, setFishName] = useState<string>("");
   const [caughtDate, setCaughtDate] = useState<string>(
     new Date().toISOString()
   );
-
-  const [open, setOpen] = React.useState(false);
+  const [fishes, setFishes] = useState<any[]>([]);
+  const [open, setOpen] = useState(false);
   const [selectedLake, setSelectedLake] = useState<any>(null);
-  const [value, setValue] = React.useState("");
+  const [selectedFish, setSelectedFish] = useState<any>(null);
 
   useEffect(() => {
     if (lakes && lakes.length > 0) {
@@ -43,14 +47,20 @@ const CreateCaughtFishModal: React.FC = () => {
     }
   }, [lakes]);
 
-  const fetchFishes = async (lakeId: string) => {
+  const fetchFishes = async () => {
     try {
-      const response = await axios.get(`/fetchFishes?lakeId=${lakeId}`);
+      const response = await axios.get("/fish");
+      setFishes(response.data);
+      console.log(response.data);
       // Handle the response and update state accordingly
     } catch (error) {
       console.error("Error fetching fishes:", error);
     }
   };
+
+  useEffect(() => {
+    fetchFishes();
+  }, []);
 
   const handleSubmit = async () => {
     if (!selectedLake) return;
@@ -74,8 +84,7 @@ const CreateCaughtFishModal: React.FC = () => {
   };
 
   const closeModal = () => {
-    // Implement your closeModal logic here
-    console.log("Close modal logic");
+    props.handleCloseModal();
   };
 
   return (
@@ -86,72 +95,81 @@ const CreateCaughtFishModal: React.FC = () => {
             Pridėti pagautą žuvį
           </DialogTitle>
         </DialogHeader>
-
-        <Popover open={open} onOpenChange={setOpen}>
-          <PopoverTrigger asChild>
-            <Button
-              variant="outline"
-              role="combobox"
-              aria-expanded={open}
-              className="w-[200px] justify-between"
-            >
-              {selectedLake ? selectedLake.name : "Parinkite ežerą..."}
-              <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent className="w-[200px] p-0">
-            <Command>
-              <CommandInput placeholder="Search lake..." className="h-9" />
-              <CommandEmpty>No lake found.</CommandEmpty>
-              <CommandGroup>
-                <CommandList>
-                  {lakes?.map((lake) => (
-                    <CommandItem
-                      key={lake.id}
-                      value={Number(lake.id)}
-                      onSelect={(currentValue) => {
-                        setSelectedLake(lake);
-                        fetchFishes(currentValue);
-                        setOpen(false);
-                      }}
-                    >
-                      {lake.name}
-                      <CheckIcon
-                        className={cn(
-                          "ml-auto h-4 w-4",
-                          selectedLake?.id === lake.id
-                            ? "opacity-100"
-                            : "opacity-0"
-                        )}
-                      />
-                    </CommandItem>
-                  ))}
-                </CommandList>
-              </CommandGroup>
-            </Command>
-          </PopoverContent>
-        </Popover>
-        <DialogDescription className="text-gray-600 p-6">
-          <div className="mb-4">
-            <label className="font-semibold text-lg">Žuvies pavadinimas:</label>
-            <input
-              type="text"
-              value={fishName}
-              onChange={(e) => setFishName(e.target.value)}
-              className="p-2 border rounded"
-            />
-          </div>
-          <div className="mb-4">
-            <label className="font-semibold text-lg">Pagavimo data:</label>
-            <input
-              type="datetime-local"
-              value={caughtDate}
-              onChange={(e) => setCaughtDate(e.target.value)}
-              className="p-2 border rounded"
-            />
-          </div>
-          <Button onClick={handleSubmit}>Pridėti</Button>
-        </DialogDescription>
+        <div>
+          <DialogDescription className="text-gray-800 p-6">
+            <div className="mb-4 flex w-full justify-between ">
+              <label className="font-semibold text-lg">
+                Parinkite ežerą...
+              </label>
+              <Popover open={open} onOpenChange={setOpen}>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    className="w-[200px] justify-between"
+                  >
+                    {selectedLake ? selectedLake.name : "Select Lake..."}
+                    <CaretSortIcon className="ml-2 h-4 w-4 opacity-50" />
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-[200px] p-0">
+                  <Command>
+                    <CommandInput
+                      placeholder="Search lake..."
+                      className="h-9"
+                    />
+                    <CommandEmpty>Nerasta tokio ezero.</CommandEmpty>
+                    <CommandGroup>
+                      <CommandList>
+                        {lakes?.map((lake) => (
+                          <CommandItem
+                            key={lake.id}
+                            value={String(lake.id)}
+                            onSelect={(currentValue) => {
+                              setSelectedLake(lake);
+                              fetchFishes(currentValue);
+                              setOpen(false);
+                            }}
+                          >
+                            {lake.name}
+                            <CheckIcon
+                              className={cn(
+                                "ml-auto h-4 w-4",
+                                selectedLake?.id === lake.id
+                                  ? "opacity-100"
+                                  : "opacity-0"
+                              )}
+                            />
+                          </CommandItem>
+                        ))}
+                      </CommandList>
+                    </CommandGroup>
+                  </Command>
+                </PopoverContent>
+              </Popover>
+            </div>
+            <div className="mb-4 flex w-full justify-between ">
+              <label className="font-semibold text-lg">
+                Žuvies pavadinimas:
+              </label>
+              <input
+                type="text"
+                value={fishName}
+                onChange={(e) => setFishName(e.target.value)}
+                className="p-2 border rounded"
+              />
+            </div>
+            <div className="mb-4 flex w-full justify-between ">
+              <label className="font-semibold text-lg ">Pagavimo data: </label>
+              <input
+                type="datetime-local"
+                value={caughtDate}
+                onChange={(e) => setCaughtDate(e.target.value)}
+                className="p-2 border rounded"
+              />
+            </div>
+            <Button onClick={handleSubmit}>Submit</Button>
+          </DialogDescription>
+        </div>
       </DialogContent>
     </Dialog>
   );

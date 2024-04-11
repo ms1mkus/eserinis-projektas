@@ -68,6 +68,24 @@ const createCaughtFishEntry = async (req: Request, res: Response) => {
   }
 };
 
+const getFishes = async (req: Request, res: Response) => {
+  try {
+    const queryRunner = AppDataSource.createQueryRunner();
+
+    await queryRunner.startTransaction();
+
+    const fishRepository = queryRunner.manager.getRepository(Fish);
+
+    const fishes = await fishRepository.find();
+
+    res.status(200).json(fishes);
+  } catch (error) {
+    console.error("Error fetching fishes:", error);
+    res.status(500).json({ message: "Failed to fetch fishes" });
+  }
+};
+
 export default {
   createCaughtFishEntry,
+  getFishes,
 };

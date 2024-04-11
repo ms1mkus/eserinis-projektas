@@ -21,16 +21,9 @@ const NavigationMenuItem = ({ children, className }) => {
 const Logo = () => {
   return (
     <div className="flex items-center">
-      <img src="" alt="Logo" className="h-8" />
       <h1> logo placeholderis</h1>
     </div>
   );
-};
-
-const Modal = ({ isOpen, onClose, children }) => {
-  if (!isOpen) return null;
-
-  return <CreateCaughtFishModal />;
 };
 
 const Navbar = () => {
@@ -43,6 +36,12 @@ const Navbar = () => {
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
+  };
+
+  const Modal = ({ isOpen, onClose, children }) => {
+    if (!isOpen) return null;
+
+    return <CreateCaughtFishModal handleCloseModal={handleCloseModal} />;
   };
 
   // Define the list of navigation items
