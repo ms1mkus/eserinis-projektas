@@ -1,9 +1,5 @@
 import { Request, Response } from "express";
 import { QueryRunner } from "typeorm";
-import { Lake } from "../../entities/lake";
-import { Fish } from "../../entities/fish";
-import { CaughtFish } from "../../entities/caughtFish";
-import { User } from "../../entities/user";
 import { AppDataSource } from "../../data-source";
 
 const getLakeInfo = async (req: Request, res: Response) => {
@@ -18,7 +14,7 @@ const getLakeInfo = async (req: Request, res: Response) => {
   try {
     queryRunner = AppDataSource.createQueryRunner();
 
-    //TODO factor to actually queryRunner not raw SQL
+    // TODO: Use queryRunner instead of raw SQL
     const fishes = await queryRunner.manager.query(
       `select
     fish."name", "user".username, count(*), fish.id
@@ -37,7 +33,13 @@ const getLakeInfo = async (req: Request, res: Response) => {
     res.status(200).json(fishes);
   } catch (error) {
     console.error("Error fetching lake info:", error);
-    res.status(500).json({ message: "Failed to fetch lake info" });
+    res
+      .status(500)
+      .json({ message: "Failed to fetch lake info", error: error.message });
+  } finally {
+    if (queryRunner) {
+      await queryRunner.release();
+    }
   }
 };
 

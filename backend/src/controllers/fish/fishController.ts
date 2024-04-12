@@ -56,7 +56,7 @@ const createCaughtFishEntry = async (req: Request, res: Response) => {
     res.status(500).json({ message: "Failed to create caught fish entry" });
   } finally {
     if (queryRunner) {
-      await queryRunner.release(); // Release the query runner
+      await queryRunner.release();
     }
   }
 };
@@ -73,7 +73,13 @@ const getFishes = async (req: Request, res: Response) => {
     res.status(200).json(fishes);
   } catch (error) {
     console.error("Error fetching fishes:", error);
-    res.status(500).json({ message: "Failed to fetch fishes" });
+    res
+      .status(500)
+      .json({ message: "Failed to fetch fishes", error: error.message });
+  } finally {
+    if (queryRunner) {
+      await queryRunner.release();
+    }
   }
 };
 
