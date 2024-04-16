@@ -6,6 +6,7 @@ import { User } from "../../entities/user";
 import type { UsersCreateBody } from "../../types/routes/users";
 import { validateCreateBody } from "./validators";
 import { QueryRunner } from "typeorm";
+import sharp from "sharp";
 
 const create = async (
   req: TypedRequestBody<UsersCreateBody>,
@@ -96,9 +97,9 @@ export const getProfileById = async (req, res) => {
 };
 
 export const updateProfile = async (req, res) => {
-  //@ts-ignore
   const userId = req.session?.passport?.user as string;
-  let queryRunner: QueryRunner;
+  let queryRunner;
+
   try {
     queryRunner = AppDataSource.createQueryRunner();
     const userRepository = queryRunner.manager.getRepository(User);
@@ -114,7 +115,12 @@ export const updateProfile = async (req, res) => {
     }
 
     if (req.file) {
-      user.imageBlob = req.file.buffer;
+      // Use Sharp to resize and compress the image to 50px
+      const resizedImage = await sharp(req.file.buffer)
+        .resize(50, 50)
+        .toBuffer();
+
+      user.imageBlob = resizedImage;
     }
 
     await userRepository.update(userId, {

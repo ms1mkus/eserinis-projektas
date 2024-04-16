@@ -11,6 +11,7 @@ export type Lake = {
   description: string;
   location: Point;
   isLiked: boolean;
+  fishIds?: number[];
 };
 
 type LakesContextProps = {
@@ -20,6 +21,7 @@ type LakesContextProps = {
   lovedOnly: boolean;
   setLovedOnly: (arg: boolean) => void;
   setLakes: (arg: Lake[]) => void;
+  refetchLakes: () => void;
 };
 
 // Create LakesContext
@@ -42,26 +44,32 @@ export const LakesProvider = ({ children }) => {
   // Use the isAuthenticated value from the useAuth hook
   const { isAuthenticated } = useAuth();
 
+  const fetchLakes = async () => {
+    // Check if the user is authenticated before fetching lakes
+    if (!isAuthenticated) {
+      setIsLoading(false);
+      return;
+    }
+
+    try {
+      const response = await axios.get("/lake");
+      setLakes(response.data);
+      setIsLoading(false);
+    } catch (err) {
+      setError(err.message);
+      setIsLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const fetchLakes = async () => {
-      // Check if the user is authenticated before fetching lakes
-      if (!isAuthenticated) {
-        setIsLoading(false);
-        return;
-      }
-
-      try {
-        const response = await axios.get("/lake");
-        setLakes(response.data);
-        setIsLoading(false);
-      } catch (err) {
-        setError(err.message);
-        setIsLoading(false);
-      }
-    };
-
     fetchLakes();
   }, [isAuthenticated]); // Add isAuthenticated to the dependency array
+
+  const refetchLakes = () => {
+    setIsLoading(true);
+    setError(null);
+    fetchLakes();
+  };
 
   const values = {
     lakes,
@@ -70,6 +78,7 @@ export const LakesProvider = ({ children }) => {
     lovedOnly,
     setLovedOnly,
     setLakes,
+    refetchLakes,
   };
 
   return (

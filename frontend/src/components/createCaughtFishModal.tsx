@@ -32,7 +32,7 @@ type CreateCaughtFishModalProps = {
 };
 
 const CreateCaughtFishModal: React.FC<CreateCaughtFishModalProps> = (props) => {
-  const { lakes, isLoading, error } = useLakes();
+  const { lakes, isLoading, error, refetchLakes } = useLakes();
   const [fishName, setFishName] = useState<string>("");
   const [caughtDate, setCaughtDate] = useState<string>(
     new Date().toISOString()
@@ -78,6 +78,7 @@ const CreateCaughtFishModal: React.FC<CreateCaughtFishModalProps> = (props) => {
         duration: 8000,
         className: "bg-blue-50 text-blue-600 border border-blue-200", // Apply light red background color
       });
+      refetchLakes();
       closeModal();
 
       if (response.status === 201) {
@@ -119,11 +120,6 @@ const CreateCaughtFishModal: React.FC<CreateCaughtFishModalProps> = (props) => {
                 </PopoverTrigger>
                 <PopoverContent className="w-[200px] p-0">
                   <Command>
-                    <CommandInput
-                      placeholder="Search lake..."
-                      className="h-9"
-                    />
-                    <CommandEmpty>Nerasta tokio ezero.</CommandEmpty>
                     <CommandGroup>
                       <CommandList>
                         {lakes?.map((lake) => (
