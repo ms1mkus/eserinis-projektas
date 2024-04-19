@@ -74,7 +74,7 @@ const CreateCaughtFishModal: React.FC<CreateCaughtFishModalProps> = (props) => {
         caughtAt: caughtDate,
       });
       toast({
-        title: "Zuvis sekmingai irasyta",
+        title: "Žuvis sėkmingai įrašyta",
         duration: 8000,
         className: "bg-blue-50 text-blue-600 border border-blue-200", // Apply light red background color
       });
