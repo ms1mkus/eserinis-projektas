@@ -16,9 +16,7 @@
 ### Trumpa naudotojo dokumentacija:
 
 > [!IMPORTANT]
-> Prieš pradedant:
-  
-  susirasykit: https://git-scm.com/downloads ir https://code.visualstudio.com/download 
+> Prieš pradedant susirašyti: https://git-scm.com/downloads ir https://code.visualstudio.com/download 
   
   P.S. Projekte cmd/terminalas visur ta pati reiskias, nesvarbu mac ar dar kazkas.
   
