@@ -9,9 +9,34 @@
 
 ## Techninė užduotis:
 
+1. Prisijungimas prie puslapio:
+
+   - Vartotojai gali prisijungti prie puslapio su savo paskyra prisijungimo duomenis.
+2. Pagrindinis puslapis:
+
+   - Pagrindiniame puslapyje vartotojams pateikiamas Lietuvos žemėlapis su žymekliais (pinpoint'ais) ant ežerų.
+   - Paspaudus ant žymeklio, atidaro naujas langas su išsamią informaciją apie ežerą.
+   - Informacija apie ežerą apima gylį, plotą ir informaciją apie žuvų rūšis, kurias galima pagauti tame ežere.
+   - Vartotojai gali palikti komentarą apie konkretų ežerą, komentaras yra matomas kitiems vartotojams.
+3. Informacijos pridėjimas apie pagautą žuvį:
+
+   - Vartotojai gali pridėti informaciją apie tai, kokią žuvį galima pagauti kuriame nors ežere.
+   - Galima nurodyti žuvies rūšį.
+   - Pateikus šią informaciją, ji tampa matoma kitam vartotojui, kuris peržiūri šio ežero informaciją.
+4. Patiktuko funkcija:
+
+   - Vartotojai gali parodyti, kad jiems patinka konkretus ežeras, paspaudę širdelės ikonėlę prie ežero informacijos.
+   - Ežeras, kurį vartotojai pasižymi kaip patinkantį, yra išskiriamas iš kitų ežerų ir gali būti filtruojamas.
+5. Profilio puslapis:
+
+   - Profilio puslapyje vartotojai gali peržiūrėti ir redaguoti savo vartotojo vardą bei profilio nuotrauką.
+   - Taip pat yra informacija apie vartotojo veiklą, tokią kaip patiktų ežerų sąrašas.
+6. Navigacija:
+
+   - Puslapyje yra navigaciniai mygtukai leidžiantys vartotojams lengvai pereiti į skirtingus puslapius, tokius kaip pagrindinis puslapis, profilis, žuvies pridėjimas arba atsijungimas.
+
 ## Architektūra:
 ![image](https://github.com/ms1mkus/eserinis/assets/73387448/c9805a31-b4a5-4b07-831c-12a807025a93)
-
 
 ## Testavimas ir jo rezultatai:
 
