@@ -15,7 +15,8 @@
 
 ### Trumpa naudotojo dokumentacija:
 
-  Prieš pradedant:
+> [!IMPORTANT]
+> Prieš pradedant:
   
   susirasykit: https://git-scm.com/downloads ir https://code.visualstudio.com/download 
   
