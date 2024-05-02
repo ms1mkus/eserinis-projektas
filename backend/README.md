@@ -1,215 +1,121 @@
-<h1 align="center">Docker Express Postgres Backend</h1>
+## Pradžia
 
-<p align="center">
-  <sub>Made with <a href="https://github.com/alexleboucher/docker-express-postgres-boilerplate">this boilerplate</a></sub>
-</p>
-
-<br />
-
-## Intro
-
-REKOMENDUOJU absoliučiai visą gidą perskaityt prieš kažką rašant, daug kur rasite mano lietuviškų kometarų primėtytų kas svarbu nesvarbu.
-
----
-
-## Features
-
-- **Docker containerization** to easily run your code anywhere and don't have to install tools like PostgreSQL on your computer.
-- **Authentication** with [Passport](https://www.passportjs.org/).
-- **Authentication session** thanks to [express-session](https://github.com/expressjs/session) and [connect-pg-simple](https://github.com/voxpelli/node-connect-pg-simple).
-- **Simplified Database Query** managed by [TypeORM](https://github.com/typeorm/typeorm).
-- **Simple but clear Structure** with different layers like routes, controllers, entities, utils, middlewares, config, etc.
-- **Object-oriented database model** with [TypeORM](https://github.com/typeorm/typeorm) entities.
-- **Integrated Testing Tool** with [Jest](https://jestjs.io/fr/docs/getting-started).
-- **E2E API Testing** thanks to [Supertest](https://github.com/ladjs/supertest).
-- **Tests utils** already implemented to simplify tests creation.
-- **Routes protection** with custom middlewares.
-- **Exception Handling** using [http-errors](https://github.com/jshttp/http-errors).
-- **Basic Security Features** with [Helmet](https://helmetjs.github.io/) and [cors](https://github.com/expressjs/cors).
-- **Configurated Code Linter** with [ESLint](https://eslint.org/) and common rules.
-- **Helpful logger** with [morgan](https://github.com/expressjs/morgan).
-- **Migration generation** based on entity changes thanks to [TypeORM](https://github.com/typeorm/typeorm).
-- **Validation utils** thanks to [Validator](https://github.com/validatorjs/validator.js).
-- **Transactions control** with [TypeORM](https://github.com/typeorm/typeorm).
-- **Entity events** with [TypeORM subscribers](https://typeorm.io/listeners-and-subscribers#what-is-a-subscriber).
-
----
-
-## Table of Contents
-
-- [Getting Started](#getting-started)
-- [Scripts](#scripts)
-- [API Routes](#api-routes)
-- [Project Structure](#project-structure)
-- [Environment Variables](#environment-variables)
-- [Authentication](#authentication)
-- [Migrations](#migrations)
-- [Subscribers](#subscribers)
-- [E2E Tests](#e2e-tests)
-- [Logging](#logging)
-- [Existing routes](#existing-routes)
-- [Common Errors](#common-errors)
-- [Clean Github Templates and Workflows](#clean-github-templates-and-workflows)
-- [Upcoming Features](#upcoming-features)
-- [Further Documentations](#further-documentations)
-- [Contributing](#contributing)
-- [License](#license)
-
----
-
-## Getting Started
-
-### Step 1: Run the server
+### Žingsnis 1: Serverio paleidimas
 
 ```bash
 yarn docker:up
-// Pirma karta dependencies projekto isirasyt reik su `yarn`, kitus kartus nereikia
-//dependencies - visokios projektui reikalingos bibliotekos, paketai, kad veiktu musu projektas
+// Pirma karta dependencies projekto įrašyti reik su `yarn`, kitus kartus nereikia
+//dependencies - visokios projektui reikalingos bibliotekos, paketai, kad veiktų mūsų projektas
 yarn dev
 ```
 
-> This starts a local server using `nodemon`, which will watch for any file changes and will restart the server according to these changes.
-> The server will be running on `http://0.0.0.0:8000` (or `http://localhost:8000`).
+> Tai paleidžia vietinį serverį naudojant `nodemon`, kuris stebės bet kokius failų pakeitimus ir perkraus serverį pagal šiuos pakeitimus.
+> Serveris veiks adresu `http://0.0.0.0:8000` (arba `http://localhost:8000`).
 
-### Step 2: Test the server
+### Žingsnis 2: Serverio testavimas
 
-To test the server, you can query `http://localhost:8000/api/health` using [Postman](https://www.postman.com/) or just copy it in the address bar in your browser.
-If the server is running, you should receive `Serveris gyvas` as response.
+Norėdami išbandyti serverį, galite užklausti `http://localhost:8000/api/health` naudodami [Postman](https://www.postman.com/) arba tiesiog įklijuoti jį į savo naršyklės adreso juostą.
+Jei serveris veikia, turėtumėte gauti atsakymą `Serveris gyvas`.
 
-### Step 3: Create the database table
+### Žingsnis 3: Duomenų bazės lentelės kūrimas
 
-## Run `yarn migration:run` to run the migration and create the table.
+Paleiskite `yarn migration:run`, kad paleistumėte migraciją ir sukurtumėte lentelę.
 
-## Scripts
+## Skriptai
 
-⚠️ Except Docker scripts, all the scripts must be executed in the `api` container shell!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+⚠️ Išskyrus Docker skriptus, visi skriptai turi būti vykdomi `api` konteinerio shell'e!
 (yarn docker:shell)
 
 ### • Docker
 
-- Run `yarn docker:up` to start the containers defined in `docker-compose.yml`. It automatically opens a shell in the `api` container. In this shell, you can run other scrips like `yarn dev`.
-- Run `docker:down` to stop the running containers.
-- Run `docker:shell` to open a shell in `api` container.
-- Run `docker:build` to build an image of your API.
+- Paleiskite `yarn docker:up`, kad paleistumėte konteinerius, aprašytus `docker-compose.yml`. Tai automatiškai atidaro shell'ą `api` konteineryje. Šiame shell'e galite vykdyti kitus skriptus, pvz., `yarn dev`.
+- Paleiskite `docker:down`, kad sustabdytumėte veikiančius konteinerius.
+- Paleiskite `docker:shell`, kad atidarytumėte shell'ą `api` konteineryje.
+- Paleiskite `docker:build`, kad sukurtumėte API vaizdą.
 
-### • Install
+### • Diegimas
 
-- Install all dependencies with `yarn install`.
+- Įdiekite visas priklausomybes su `yarn install`.
 
-### • Running in dev mode
+### • Paleidimas kūrimo režimu
 
-- Run `yarn dev` to start [nodemon](https://www.npmjs.com/package/nodemon) with ts-node, to serve the app.
-- By default, the server will be running on `http://0.0.0.0:8000` (or `http://localhost:8000`).
+- Paleiskite `yarn dev`, kad paleistumėte [nodemon](https://www.npmjs.com/package/nodemon) su ts-node, kad serveris veiktų.
+- Pagal numatytuosius nustatymus serveris veiks adresu `http://0.0.0.0:8000` (arba `http://localhost:8000`).
 
-### • Build
+### • Kompiliavimas
 
-- Run `yarn build` to build the project. The compiled files will be placed in `build/`.
-- Run `yarn start` to run compiled project.
-- Run `yarn type-check` to run type checking.
+- Paleiskite `yarn build`, kad sukurtumėte projektą. Kompiliuoti failai bus patalpinti `build/`.
+- Paleiskite `yarn start`, kad paleistumėte kompiliuotą projektą.
+- Paleiskite `yarn type-check`, kad patikrintumėte tipų atitiktį.
 
-### • Migrations
+### • Migracijos
 
-- Run `yarn migration:run` to run non-executed migrations.
-- Run `yarn migration:generate MigrationName` to generate a migration based on entities changes.
-- Run `yarn migration:create MigrationName` to create a empty migration.
-- Run `yarn migration:revert` to revert the last migration. If you want to revert multiple migrations, you can run this command several times.
+- Paleiskite `yarn migration:run`, kad paleistumėte nepaleistas migracijas.
+- Paleiskite `yarn migration:generate MigrationName`, kad sukurtumėte migraciją pagal entity pakeitimus.
+- Paleiskite `yarn migration:create MigrationName`, kad sukurtumėte tuščią migraciją.
+- Paleiskite `yarn migration:revert`, kad atšauktumėte paskutinę migraciją. Jei norite atšaukti kelias migracijas, galite kelis kartus paleisti šią komandą.
 
 ### • Linting
 
-- Run code quality analysis using `yarn lint`. This runs ESLint and displays warning and errors.
-- You can also use `yarn lint:fix` to run ESLint and fix fixable warning and errors.
+- Paleiskite kodo kokybės analizę naudodami `yarn lint`. Tai paleidžia ESLint ir rodo įspėjimus ir klaidas.
+- Taip pat galite naudoti `yarn lint:fix`, kad paleistumėte ESLint ir pataisytumėte ištaisomus įspėjimus ir klaidas.
 
-### • Tests
+### • Testavimas
 
-- Run tests using `yarn test`.
-- Run tests with coverage using `yarn test:coverage`.
-
----
-
-## API Routes
-
-The route prefix is `/api` by default, but you can change this in the .env file.
-
-| Route                       | Method | Description                  |
-| --------------------------- | ------ | ---------------------------- |
-| **/api/health**             | GET    | Show `Serveris gyvas`        |
-| **/api/users**              | POST   | Create a user                |
-| **/api/auth/login**         | POST   | Log a user                   |
-| **/api/auth/logout**        | POST   | Logout logged user           |
-| **/api/auth/authenticated** | GET    | Return authentication status |
+- Paleiskite testus naudodami `yarn test`.
+- Paleiskite testus su aprėptimi naudodami `yarn test:coverage`.
 
 ---
 
-## Project Structure
+## Projekto struktūra
 
-| Name                                        | Description                               |
-| ------------------------------------------- | ----------------------------------------- |
-| \***\*tests**/\*\*                          | Tests                                     |
-| \***\*tests**/e2e/\*\*                      | End-to-end tests                          |
-| \***\*tests**/utils/\*\*                    | Tests utils                               |
-| **@types/**                                 | Global types definitions                  |
-| **build/**                                  | Compiled source files will be placed here |
-| **coverage/**                               | Jest coverage results will be placed here |
-| **src/**                                    | Source files                              |
-| **src/config/**                             | Configuration files                       |
-| **src/controllers/**                        | REST API Controllers                      |
-| **src/controllers/[feature]/index.ts**      | Functions for feature routes              |
-| **src/controllers/[feature]/validators.ts** | Validation functions for feature routes   |
-| **src/entities/**                           | TypeORM entities                          |
-| **src/middlewares/**                        | Middlewares                               |
-| **src/migrations/**                         | Migrations files                          |
-| **src/routes/**                             | REST API Routes                           |
-| **src/routes/[feature].ts**                 | Feature routes                            |
-| **src/types/**                              | Typescript types                          |
-| **src/utils/**                              | Utils functions                           |
-| **src/data-source.ts**                      | TypeORM data source                       |
-| **src/index.ts**                            | REST API entry point                      |
-
----
-
-## Environment Variables
-
-.env faile siti variables.
-
-| Name                | Description                                                                                                  | Optional | Default value |
-| ------------------- | ------------------------------------------------------------------------------------------------------------ | -------- | ------------- |
-| NODE_ENV            | Used to state whether an environment is a production, development, test environment, etc.                    | ✔️       |
-| HOST                | Server host                                                                                                  | ✔️       | 0.0.0.0       |
-| PORT                | Server host port                                                                                             | ❌       |
-| DB_USER             | Database username                                                                                            | ❌       |
-| DB_HOST             | Database host                                                                                                | ❌       |
-| DB_NAME             | Database name                                                                                                | ❌       |
-| DB_PASSWORD         | Database password                                                                                            | ❌       |
-| DB_PORT             | Database host port                                                                                           | ❌       |
-| DB_HOST_PORT        | Database mapped port. On the machine that use Docker, the database will be accessible on this port           | ❌       |
-| CORS_ORIGIN_ALLOWED | List of CORS allowed origins                                                                                 | ✔️       |
-| API_ROUTES_PREFIX   | The API routes prefix. Is set to `/api`, all the routes are accessible by querying `/api/...`                | ✔️       |
-| TEST_DB_HOST        | Test database host                                                                                           | ❌       |
-| TEST_DB_NAME        | Test database name                                                                                           | ❌       |
-| TEST_DB_HOST_PORT   | Test database mapped port. On the machine that use Docker, the test database will be accessible on this port | ❌       |
+| Pavadinimas                                | Aprašymas                                  |
+| -------------------------------------------| -------------------------------------------|
+| \***\*tests**/\*\*                          | Testai                                     |
+| \***\*tests**/e2e/\*\*                      | End-to-end testai                          |
+| \***\*tests**/utils/\*\*                    | Testų įrankiai                             |
+| **@types/**                                 | Globalūs tipų aprašymai                    |
+| **build/**                                  | Kompiliuoti šaltinio failai bus čia        |
+| **coverage/**                               | Jest aprėpties rezultatai bus čia          |
+| **src/**                                    | Šaltinio failai                            |
+| **src/config/**                             | Konfigūracijos failai                      |
+| **src/controllers/**                        | REST API valdikliai                        |
+| **src/controllers/[feature]/index.ts**      | Funkcijos skirti maršrutams                |
+| **src/controllers/[feature]/validators.ts** | Validacijos funkcijos skirti maršrutams    |
+| **src/entities/**                           | TypeORM entity                             |
+| **src/middlewares/**                        | Tarpinės programos                         |
+| **src/migrations/**                         | Migracijų failai                           |
+| **src/routes/**                             | REST API maršrutai                         |
+| **src/routes/[feature].ts**                 | Maršrutai skirti tam tikram funkcionalumui |
+| **src/types/**                              | Typescript tipai                           |
+| **src/utils/**                              | Naudingos funkcijos                        |
+| **src/data-source.ts**                      | TypeORM duomenų šaltinis                   |
+| **src/index.ts**                            | REST API pradinė vieta                     |
 
 ---
 
-## Authentication
+## Autentifikacija
 
-`Passport.js` is used to handle authentication. This is a flexible and modular authentication middleware that allows you to easily add new authentication strategies like login with Facebook, Google, Github, etc.
+`Passport.js` naudojamas autentifikacijai. Tai lanksti ir modulinė autentifikacijos tarpinių programų sistema, leidžianti lengvai pridėti naujas autentifikacijos strategijas, pvz., prisijungimą su Facebook, Google, Github ir kt.
 
-The `Passport` configuration and functions are located in `src/config/passport.ts`.
+`Passport` konfigūracija ir funkcijos yra `src/config/passport.ts`.
 
-The `serializeUser` defines what data are saved in request session, generally we save the user id.
-The `deserializeUser` allows getting the whole user object and assigning it in `req.user`, so you can easily get the authenticated user with `req.user`. You don't need to explicitly call `deserializeUser` before calling `req.user`.
+`serializeUser` apibrėžia, kokie duomenys išsaugomi užklausos sesijoje, dažniausiai saugome vartotojo ID.
+`deserializeUser` leidžia gauti visą vartotojo objektą ir priskirti jį į `req.user`, todėl galite lengvai gauti autentifikuotą vartotoją su `req.user`. Jums nereikia aiškiai iškviesti `deserializeUser` prieš iškviečiant `req.user`.
 
-You can find the Passport docs [here](https://www.passportjs.org/).
+`Passport` dokumentaciją rasite [čia](https://www.passportjs.org/).
 
-To protect a route, you can use auth middlewares located in `src/middlewares/auth.ts`.
+Norėdami apsaugoti maršrutą, galite naudoti autentifikacijos tarpines programas, esančias `src/middlewares/auth.ts`.
 
-To check if a user is authenticated before accessing a route, use `isAuthenticated`:
+Norėdami patikrinti, ar vartotojas yra autentifikuotas prieš pasiekdamas maršrutą, naudokite `isAuthenticated`:
 
 ```typescript
-router.route("/logout").post(isAuthenticated, AuthController.logout);
+router.route("/logout").post(isAuthenticated, Auth
+
+Controller.logout);
 ```
 
-To check if a user is not authenticated before accessing a route, use `isUnauthenticated`:
+Norėdami patikrinti, ar vartotojas nėra autentifikuotas prieš pasiekdamas maršrutą, naudokite `isUnauthenticated`:
 
 ```typescript
 router.route("/login").post(isUnauthenticated, AuthController.login);
@@ -217,187 +123,35 @@ router.route("/login").post(isUnauthenticated, AuthController.login);
 
 ---
 
-## Migrations
+## Migracijos
 
-SVARBU, cia kaip su duombaze dirbsim
+SVARBU, čia kaip su duomenų baze dirbsim
 
-Thanks to TypeORM, you can easily manage your migrations. The executed migrations are stored in a table which allows TypeORM to know which migrations must be executed but also to revert migrations if you need.
+Dėka TypeORM, galite lengvai valdyti savo migracijas. Vykdytos migracijos saugomos lentelėje, kuri leidžia TypeORM žinoti, kurios migracijos turi būti vykdomos, bet taip pat atšaukti migracijas, jei reikia.
 
-⚠️ The migrations scripts must be executed in the `api` container shell.
+⚠️ Migracijos skriptai turi būti vykdomi `api` konteinerio shell'e.
 
-### Create a migration
+### Sukurti migraciją
 
-To create a migration, run `yarn migration:create MigrationName`. It will create an empty migration in `src/migrations`. The migration file have two functions : `up` and `down`. `up` is executed when you run the migration. `down` is executed when you revert the migration.
+Norėdami sukurti migraciją, paleiskite `yarn migration:create MigrationName`. Tai sukurs tuščią migraciją `src/migrations`. Migracijos failas turi dvi funkcijas: `up` ir `down`. `up` vykdoma, kai paleidžiate migraciją. `down` vykdoma, kai atšaukiate migraciją.
 
-### Generate a migration
+### Generuoti migraciją
 
-To generate a migration based on entities' changes, run `yarn migration:generate MigrationName`, it will create a migration in `src/migrations`. The migration is automatically generated based on your entities compared to your actual database.
+Norėdami generuoti migraciją pagal entity pakeitimus, paleiskite `yarn migration:generate MigrationName`, tai sukurs migraciją `src/migrations`. Migracija automatiškai generuojama pagal jūsų entity pakeitimus lyginant su esama duomenų baze.
 
-For example, you can try by adding a property `firstName` in the `User` entity:
+Pavyzdžiui, galite pabandyti pridėti savybę `firstName` į `User` entity:
 
 ```typescript
 @Column({ nullable: false, length: 20 })
 firstName!: string;
 ```
 
-Then, run `yarn migration:generate AddFirstNameInUser`, it will automatically generate a migration to create the new column.
+Tada paleiskite `yarn migration:generate AddFirstNameInUser`, tai automatiškai generuos migraciją, kad sukurtų naują stulpelį.
 
-### Run migrations
+### Vykdyti migracijas
 
-To run the migrations that have not been executed yet, run `yarn migration:run`.
+Norėdami paleisti dar nevykdytas migracijas, paleiskite `yarn migration:run`.
 
-### Revert a migration
+### Atšaukti migraciją
 
-You can revert the last executed migration by running `yarn migration:revert`. If you want to revert multiple migrations, you can run this command several times.
-
----
-
-## E2E Tests
-
-### Tests overview
-
-End-to-end testing is a methodology used to test the functionality and performance of an application under product-like circumstances and data to replicate live settings. The goal is to simulate what a real user scenario looks like from start to finish.
-
-In this project, [Jest](https://jestjs.io/docs/getting-started) and [supertest](https://github.com/ladjs/supertest) are used for the E2E tests.
-
-They are located in `__tests__/e2e/`.
-
-The actual coverage is 100%.
-
-### Commands
-
-You can run the tests by running `yarn test` in the `api` container shell.
-
-If you want to see the tests' coverage, you can run `yarn test:coverage`.
-
-If you want to run only one test file, you can add the name or path of the file after the command. For example, use `yarn test auth` to run only the auth tests.
-
-### How to create new tests
-
-To create new tests, you can add tests in an existing test file or create a new test file.
-
-Before all your tests, you need to create the test server:
-
-```typescript
-let server: Server;
-
-beforeAll(async () => {
-  server = await createTestServer();
-});
-```
-
-And after all your tests, you must close the database connection and the test server:
-
-```typescript
-afterAll(async () => {
-  await closeDatabase();
-  server.close();
-});
-```
-
-Then, you can create a test suite by using `describe` function.
-
-It is strongly recommended to clean the database after each test to prevent data issues and duplicates:
-
-```typescript
-afterEach(async () => {
-  await clearDatabase();
-});
-```
-
-Then, you can create a test by using `test` function.
-
-To test a route, you need to use `supertest`:
-
-```typescript
-const res = await request(server).get("/api/auth/authenticated");
-```
-
-To test a route as an authenticated user, use the `createAuthenticatedAgent` function:
-
-```typescript
-const { agent } = await createAuthenticatedAgent(server);
-const res = await agent.get("/api/auth/authenticated");
-```
-
-Agents allow maintaining a session between multiple requests.
-
-To check values, you must use `expect` function:
-
-```typescript
-expect(res.statusCode).toEqual(200);
-```
-
-You can find more info about `Jest` [here](https://jestjs.io/docs/getting-started).
-
-You can find more info about `supertest` [here](https://github.com/ladjs/supertest).
-
-### Tests utils
-
-Some utils have been created to easily create new tests. They are located in `__tests__/utils/`.
-
-#### `createTestServer` (`testHelpers.ts`)
-
-This function creates a test server. You can change the port, prevent the database connection or override Express.
-
-#### `closeDatabase` (`testHelpers.ts`)
-
-This function closes the database connection.
-
-#### `clearDatabase` (`testHelpers.ts`)
-
-This function clears the database data.
-
-#### `createAuthenticatedAgent` (`testHelpers.ts`)
-
-This function creates an authenticated agent. Agents allow maintaining a session between multiple requests. You can customize agent user information.
-
-#### `createTestUser` (`userHelpers.ts`)
-
-This function creates a user and inserts it in the database. You can customize the user information.
-
----
-
-## Existing Routes
-
-Some basic routes are already implemented. Feel free to use, update or delete them at your conveniance.
-
-You can create a user by using the POST route `/api/users`. The query body must contain a username, an email and a password. The Vartotojo vardas turi būti bent 5 simbolių, the email must be valid and the password must contain at least 8 characters. The user's password is encrypted.
-
-You can login by using the POST route `/api/auth/login`. The query body must contain a login and a password. The login can be the email or the username of the user.<br/>
-You can access this route only if you are unauthenticated.
-
-You can logout with the POST route `/api/auth/logout`. You can access this route only if you are authenticated.
-
-You can get your authentication status by using the GET route `/api/auth/authenticated`. If you're authenticated, it will send `You are authenticated` as response. Otherwise, it will send `Jūs nesate autentifikuotas`.
-
----
-
-## Common Errors
-
-SVARBU
-
-If you encounter an error when running `yarn docker:up`, make sure Docker Desktop is running.
-
-If you encounter an error when running a script, make sure you ran the script in the `api` container shell.
-
----
-
-## Further Documentations
-
-| Name & Link                                                  | Description                                                                                                                                                                                                   |
-| ------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [Express](https://expressjs.com/)                            | Express is a minimal and flexible Node.js web application framework that provides a robust set of features for web and mobile applications.                                                                   |
-| [TypeORM](http://typeorm.io/#/)                              | TypeORM is highly influenced by other ORMs, such as Hibernate, Doctrine and Entity Framework.                                                                                                                 |
-| [Passport](https://www.passportjs.org/)                      | Passport is authentication middleware for Node.js. Extremely flexible and modular, Passport can be unobtrusively dropped in to any Express-based web application.                                             |
-| [Docker](https://www.docker.com/)                            | Docker is a platform designed to help developers build, share, and run modern applications. We handle the tedious setup, so you can focus on the code.                                                        |
-| [PostgreSQL](https://www.postgresql.org/)                    | PostgreSQL is a powerful, open source object-relational database system with over 35 years of active development that has earned it a strong reputation for reliability, feature robustness, and performance. |
-| [TypeScript](https://www.typescriptlang.org/)                | TypeScript is a strongly typed programming language that builds on JavaScript, giving you better tooling at any scale.                                                                                        |
-| [validator](https://github.com/validatorjs/validator.js/)    | A library of string validators and sanitizers.                                                                                                                                                                |
-| [Jest](https://jestjs.io/fr/docs/getting-started/)           | Jest is a Testing Framework with a focus on simplicity.                                                                                                                                                       |
-| [supertest](https://github.com/ladjs/supertest/)             | A library that allows developers and testers to test the APIs.                                                                                                                                                |
-| [Helmet](https://helmetjs.github.io/)                        | Helmet helps you secure your Express apps by setting various HTTP headers.                                                                                                                                    |
-| [cors](https://github.com/expressjs/cors)                    | CORS is a node.js package for providing a Connect/Express middleware that can be used to enable CORS with various options.                                                                                    |
-| [ESLint](https://eslint.org/docs/latest/use/getting-started) | ESLint is a tool for identifying and reporting on patterns found in code, with the goal of making code more consistent and avoiding bugs.                                                                     |
-
----
+Galite atšaukti paskutinę vykdytą migraciją paleisdami `yarn migration:revert`. Jei norite atšaukti kelias migracijas, galite kelis kartus paleisti šią komandą.
