@@ -74,7 +74,7 @@ yarn dev
 ### Step 2: Test the server
 
 To test the server, you can query `http://localhost:8000/api/health` using [Postman](https://www.postman.com/) or just copy it in the address bar in your browser.
-If the server is running, you should receive `Server is up!` as response.
+If the server is running, you should receive `Serveris gyvas` as response.
 
 ### Step 3: Create the database table
 
@@ -132,7 +132,7 @@ The route prefix is `/api` by default, but you can change this in the .env file.
 
 | Route                       | Method | Description                  |
 | --------------------------- | ------ | ---------------------------- |
-| **/api/health**             | GET    | Show `Server is up!`         |
+| **/api/health**             | GET    | Show `Serveris gyvas`         |
 | **/api/users**              | POST   | Create a user                |
 | **/api/auth/login**         | POST   | Log a user                   |
 | **/api/auth/logout**        | POST   | Logout logged user           |

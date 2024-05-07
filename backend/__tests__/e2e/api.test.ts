@@ -2,40 +2,39 @@ import request from 'supertest';
 import type { Server } from 'http';
 
 import * as AuthValidators from '../../src/controllers/auth/validators';
-import { closeDatabase, createTestServer } from '../utils/testsHelpers';
+import { teardownDatabase, setupServer } from '../utils/testsHelpers';
 
-let server: Server;
+let testServer: Server;
 
-beforeAll(async() => {
-    server = await createTestServer();
+beforeAll(async () => {
+    testServer = await setupServer();
 });
 
 afterAll(async () => {
-    await closeDatabase();
-    server.close();
+    await teardownDatabase();
+    testServer.close();
 });
 
-describe('API', () => {
-    test('Send "Server is up!"', async () => {
-        const res = await request(server).get('/api/health');
+describe('API Endpoints', () => {
+    test('Respond with "Serveris gyvas" when checking health', async () => {
+        const response = await request(testServer).get('/api/health');
 
-        expect(res.statusCode).toEqual(200);
-        expect(res.text).toEqual('Server is up!');
+        expect(response.statusCode).toEqual(200);
+        expect(response.text).toEqual('Serveris gyvas');
     });
 
-    test('Send 404 if route does not exist', async () => {
-        const res = await request(server).get('/api/fake');
+    test('Return 404 for non-existent routes', async () => {
+        const response = await request(testServer).get('/api/notRealRoute');
 
-        expect(res.statusCode).toEqual(404);
-        expect(res.body.message).toEqual('Resource Not Found');
+        expect(response.statusCode).toEqual(404);
+        expect(response.body.message).toEqual('Resource Not Found');
     });
 
-    test('Handle unexpected errors', async () => {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        jest.spyOn(AuthValidators, 'validateLoginBody').mockImplementationOnce(_ => { throw 'User error'; });
-        const res = await request(server).post('/api/auth/login');
+    test('Handle unexpected errors gracefully', async () => {
+        jest.spyOn(AuthValidators, 'validateLoginBody').mockImplementationOnce(() => { throw 'User error'; });
+        const response = await request(testServer).post('/api/auth/login');
 
-        expect(res.statusCode).toEqual(500);
-        expect(res.body.message).toEqual('Unexpected error');
+        expect(response.statusCode).toEqual(500);
+        expect(response.body.message).toEqual('Unexpected error');
     });
 });

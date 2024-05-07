@@ -3,92 +3,81 @@ import request from 'supertest';
 
 import { AppDataSource } from '../../src/data-source';
 import { User } from '../../src/entities/user';
-import { clearDatabase, closeDatabase, createTestServer } from '../utils/testsHelpers';
-import { createTestUser } from '../utils/userHelpers';
+import { resetDatabase, teardownDatabase, setupServer } from '../utils/testsHelpers';
+import { registerTestUser } from '../utils/userHelpers';
 
-let server: Server;
+let testServer: Server;
 
-beforeAll(async() => {
-    server = await createTestServer();
+beforeAll(async () => {
+    testServer = await setupServer();
 });
 
 afterAll(async () => {
-    await closeDatabase();
-    server.close();
+    await teardownDatabase();
+    testServer.close();
 });
 
-describe('Users routes', () => {
+describe('User Routes', () => {
     afterEach(async () => {
-        await clearDatabase();
+        await resetDatabase();
     });
 
-    test('Create a user', async () => {
-        const username = 'fakeUser';
-        const email = 'fakeUser@gmail.com';
-        const password = 'fakeUserPwd';
+    test('Should successfully create a user', async () => {
+        const username = 'netikrasVartotojas';
+        const email = 'netikrasVartotojas@gmail.com';
+        const password = 'netikrasVartotojasSlaptazodis';
 
-        const res = await request(server).post('/api/users').send({ username, email, password });
+        const response = await request(testServer).post('/api/users').send({ username, email, password });
 
         const userRepo = AppDataSource.getRepository(User);
-        const user = await userRepo.findOneByOrFail({ username });
+        const user = await userRepo.findOneOrFail({ where: { username: username } });
 
-        expect(res.statusCode).toEqual(200);
-        expect(res.text).toEqual(user.id);
+        expect(response.statusCode).toEqual(200);
+        expect(response.text).toEqual(user.id);
     });
 
-    test('User creation fails if query body is invalid', async () => {
-        const username = 'fakeUser';
-        const email = 'fakeUser@gmail.com';
-        const password = 'fakeUserPwd';
+    test('Should fail user creation with invalid request body', async () => {
+        const response = await request(testServer).post('/api/users').send({});
 
-        // Missing username
-        const res1 = await request(server).post('/api/users').send({ email, password });
-
-        expect(res1.statusCode).toEqual(400);
-        expect(res1.body.message).toEqual('Username required');
-
-        // Missing email
-        const res2 = await request(server).post('/api/users').send({ username, password });
-
-        expect(res2.statusCode).toEqual(400);
-        expect(res2.body.message).toEqual('Email required');
-
-        // Missing password
-        const res3 = await request(server).post('/api/users').send({ username, email });
-
-        expect(res3.statusCode).toEqual(400);
-        expect(res3.body.message).toEqual('Password required');
-
-        // Username have less that 5 characters
-        const res4 = await request(server).post('/api/users').send({ username: 'fake', email, password });
-
-        expect(res4.statusCode).toEqual(400);
-        expect(res4.body.message).toEqual('Username must contain at least 5 characters');
-
-        // Email is invalid
-        const res5 = await request(server).post('/api/users').send({ username, email: 'fake', password });
-
-        expect(res5.statusCode).toEqual(400);
-        expect(res5.body.message).toEqual('Email is invalid');
-
-        // Password have less that 8 characters
-        const res6 = await request(server).post('/api/users').send({ username, email, password: 'fake' });
-
-        expect(res6.statusCode).toEqual(400);
-        expect(res6.body.message).toEqual('Password must contain at least 8 characters');
+        expect(response.statusCode).toEqual(400);
+        expect(response.body.message).toEqual('Reikalingas vartotojo vardas');
     });
 
-    test('User creation fails if username or email already exists', async () => {
-        const { username, email } = await createTestUser();
+    test('Should fail user creation with invalid username, email, or password', async () => {
+        const username = 'netikrasVartotojas';
+        const email = 'netikrasVartotojas@gmail.com';
+        const password = 'netikrasVartotojasSlaptazodis';
 
-        // Username already existing
-        const res1 = await request(server).post('/api/users').send({ username, email: 'otherEmail@gmail.com', password: 'password' });
-        expect(res1.statusCode).toEqual(409);
-        expect(res1.body.message).toEqual('Username already exists');
+        const testCases = [
+            { input: { email, password }, expectedMessage: 'Reikalingas vartotojo vardas' },
+            { input: { username, password }, expectedMessage: 'El. paštas reikalingas' },
+            { input: { username, email }, expectedMessage: 'Slaptažodis reikalingas' },
+            { input: { username: 'netikras', email, password }, expectedMessage: 'Vartotojo vardas turi būti bent 5 simbolių' },
+            { input: { username, email: 'netikras', password }, expectedMessage: 'El. paštas yra neteisingas' },
+            { input: { username, email, password: 'netikras' }, expectedMessage: 'Slaptažodis turi būti bent 8 simbolių' },
+        ];
 
-        // Email already existing
-        const res2 = await request(server).post('/api/users').send({ username: 'otherUsername', email, password: 'password' });
-        expect(res2.statusCode).toEqual(409);
-        expect(res2.body.message).toEqual('Email already exists');
+        for (const { input, expectedMessage } of testCases) {
+            const response = await request(testServer).post('/api/users').send(input);
+
+            expect(response.statusCode).toEqual(400);
+            expect(response.body.message).toEqual(expectedMessage);
+        }
+    });
+
+    test('Should fail user creation if username or email already exists', async () => {
+        const { username, email } = await registerTestUser();
+
+        const testCases = [
+            { input: { username, email: 'kitasEmail@gmail.com', password: 'slaptazodis' }, expectedMessage: 'Vartotojo vardas jau užimtas' },
+            { input: { username: 'kitasVardas', email, password: 'slaptazodis' }, expectedMessage: 'Elektroninis paštas jau užimtas' },
+        ];
+
+        for (const { input, expectedMessage } of testCases) {
+            const response = await request(testServer).post('/api/users').send(input);
+
+            expect(response.statusCode).toEqual(409);
+            expect(response.body.message).toEqual(expectedMessage);
+        }
     });
 });
