@@ -1,17 +1,17 @@
-import { useState, useEffect } from 'react';
-import axios from 'axios';
+import { useState, useEffect } from "react";
+import axios from "axios";
 import "../styles/LakeList.css";
-
+//yoyoyo sikiskik
 const LakeList = () => {
   const [lakes, setLakes] = useState([]);
 
   useEffect(() => {
     const fetchLakes = async () => {
       try {
-        const response = await axios.get('/lakes');
+        const response = await axios.get("/lakes");
         setLakes(response.data);
       } catch (error) {
-        console.error('Error fetching lakes:', error);
+        console.error("Error fetching lakes:", error);
       }
     };
 
@@ -22,7 +22,7 @@ const LakeList = () => {
     <div className="lake-list-container">
       <h2 className="title">List of Lakes:</h2>
       <ul className="lake-list">
-        {lakes.map(lake => (
+        {lakes.map((lake) => (
           <li key={lake.id} className="lake-item">
             <h3 className="lake-name">{lake.name}</h3>
             <p className="lake-info">Area: {lake.area} km²</p>
