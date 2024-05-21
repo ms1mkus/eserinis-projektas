@@ -72,7 +72,7 @@ Backend 'operuoja' šie kontroleriai:
   
   Jums reikia sukurti kūrimo aplinką prieš pradedant bet ką daryti.
   
-  #### Įdiegti [Node.js ir NPM]
+  #### Projekto reikalavimai prieš pasileidžiant [Node.js ir NPM]
   Jei jau turite Node.js kompiuteryje, vis tiek siūlau pereiti visus veiksmus (nes senas node/arba įrašytas blogai gali būti).
   Įsidiekite [chocolatey](https://chocolatey.org/install) jei naudojate Windows, [homebrew](http://brew.sh) jei naudojate MacOS.
   Įdiegę chocolatey/homebrew, atsidarykite cmd PROJEKTE ir paleiskite šias eilutes:
