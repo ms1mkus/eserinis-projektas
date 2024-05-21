@@ -1,5 +1,5 @@
 > [!NOTE]
-> Kaunas University of Technology | 2024
+> Kaunas University of Technology | 2024 | P175B015 Programų sistemų inžinerija
 
 ## Pavadinimas:
   **Ešerinis**
