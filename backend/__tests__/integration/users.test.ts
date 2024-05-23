@@ -51,7 +51,35 @@ describe("User Routes", () => {
     expect(response.body.message).toEqual("Reikalingas vartotojo vardas");
   });
 
-  test("Should fail user creation with invalid username, email, or password", async () => {
+  test("Should fail user creation if username or email already exists", async () => {
+    const { username, email } = await registerTestUser();
+
+    const testCases = [
+      {
+        input: {
+          username,
+          email: "testinis_email@gmail.com",
+          password: "slaptazodis",
+        },
+        expectedMessage: "Vartotojo vardas jau užimtas",
+      },
+      {
+        input: { username: "kitasVardas", email, password: "slaptazodis" },
+        expectedMessage: "Elektroninis paštas jau užimtas",
+      },
+    ];
+
+    for (const { input, expectedMessage } of testCases) {
+      const response = await request(testServer).post("/api/users").send(input);
+
+      expect(response.statusCode).toEqual(409);
+      expect(response.body.message).toEqual(expectedMessage);
+    }
+  });
+
+  //Satisfies: 4.	Research parametrized tests, use them while creating unit tests where appropriate.
+  //PARAMETRIZED TESTS
+  describe("User creation validation", () => {
     const username = "testVartotojas";
     const email = "testVartotojas@gmail.com";
     const password = "testVartotojasSlaptazodis";
@@ -83,37 +111,16 @@ describe("User Routes", () => {
       },
     ];
 
-    for (const { input, expectedMessage } of testCases) {
-      const response = await request(testServer).post("/api/users").send(input);
+    it.each(testCases)(
+      "should fail user creation with invalid data",
+      async ({ input, expectedMessage }) => {
+        const response = await request(testServer)
+          .post("/api/users")
+          .send(input);
 
-      expect(response.statusCode).toEqual(400);
-      expect(response.body.message).toEqual(expectedMessage);
-    }
-  });
-
-  test("Should fail user creation if username or email already exists", async () => {
-    const { username, email } = await registerTestUser();
-
-    const testCases = [
-      {
-        input: {
-          username,
-          email: "testinis_email@gmail.com",
-          password: "slaptazodis",
-        },
-        expectedMessage: "Vartotojo vardas jau užimtas",
-      },
-      {
-        input: { username: "kitasVardas", email, password: "slaptazodis" },
-        expectedMessage: "Elektroninis paštas jau užimtas",
-      },
-    ];
-
-    for (const { input, expectedMessage } of testCases) {
-      const response = await request(testServer).post("/api/users").send(input);
-
-      expect(response.statusCode).toEqual(409);
-      expect(response.body.message).toEqual(expectedMessage);
-    }
+        expect(response.statusCode).toEqual(400);
+        expect(response.body.message).toEqual(expectedMessage);
+      }
+    );
   });
 });

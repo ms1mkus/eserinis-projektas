@@ -28,6 +28,7 @@ describe("fishController", () => {
     },
     release: jest.fn(),
     rollbackTransaction: jest.fn(),
+    commitTransaction: jest.fn(),
     connect: jest.fn(),
     startTransaction: jest.fn(),
   };
@@ -38,7 +39,7 @@ describe("fishController", () => {
     );
   });
 
-  describe.only("createCaughtFishEntry", () => {
+  describe("createCaughtFishEntry", () => {
     const mockCaughtFish = new CaughtFish();
     mockCaughtFish.id = 1;
 
@@ -72,6 +73,71 @@ describe("fishController", () => {
       });
     });
 
+    it("should handle errors when fetching user, fish, or lake", async () => {
+      const res = mockResponse();
+      const mockRequestWithBody = {
+        body: {
+          fishId: 1,
+          lakeId: 1,
+          caughtAt: "2022-04-23T12:00:00Z",
+        },
+        session: { passport: { user: mockUser.id } },
+      } as any;
+
+      (mockQueryRunner.manager.getRepository as jest.Mock).mockReturnValue({
+        findOneBy: jest.fn().mockResolvedValue(null),
+      });
+
+      await fishController.createCaughtFishEntry(
+        mockRequestWithBody,
+        res as any
+      );
+      expect(res.status).toHaveBeenCalledWith(500);
+      expect(res.json).toHaveBeenCalledWith({
+        message: "Failed to create caught fish entry",
+      });
+    });
+
+    it("should validate if payload has session id", async () => {
+      const res = mockResponse();
+      const mockRequestWithBody = {
+        body: {
+          fishId: mockFish.id,
+          lakeId: mockLake.id,
+          caughtAt: "2022-04-23T12:00:00Z",
+        },
+        session: {},
+      } as any;
+
+      await fishController.createCaughtFishEntry(
+        mockRequestWithBody as any,
+        res as any
+      );
+
+      expect(res.status).toHaveBeenCalledWith(401);
+      expect(res.json).toHaveBeenCalledWith({
+        message: "Session token is missing or invalid",
+      });
+    });
+
+    it("should handle errors when fetching user, fish, or lake", async () => {
+      const res = mockResponse();
+      const mockError = new Error("Test error");
+
+      (mockQueryRunner.manager.getRepository as jest.Mock).mockReturnValue({
+        findOneBy: jest.fn().mockRejectedValue(mockError),
+      });
+
+      await fishController.createCaughtFishEntry(
+        mockRequestWithBody,
+        res as any
+      );
+      expect(res.status).toHaveBeenCalledWith(500);
+      expect(res.json).toHaveBeenCalledWith({
+        message: "Failed to create caught fish entry",
+      });
+    });
+
     it("should handle errors during transaction and rollback transaction", async () => {
       const res = mockResponse();
       const mockError = new Error("Test error");
@@ -88,6 +154,35 @@ describe("fishController", () => {
       expect(res.json).toHaveBeenCalledWith({
         message: "Failed to create caught fish entry",
       });
+      expect(mockQueryRunner.rollbackTransaction).toHaveBeenCalled();
+    });
+
+    it("should successfully create a caught fish entry", async () => {
+      const res = mockResponse();
+
+      (mockQueryRunner.manager.getRepository as jest.Mock)
+        .mockReturnValueOnce({
+          findOneBy: jest.fn().mockResolvedValue(mockUser),
+        })
+        .mockReturnValueOnce({
+          findOneBy: jest.fn().mockResolvedValue(mockFish),
+        })
+        .mockReturnValueOnce({
+          findOneBy: jest.fn().mockResolvedValue(mockLake),
+        })
+        .mockReturnValueOnce({
+          save: jest.fn().mockResolvedValue(mockCaughtFish),
+        });
+
+      await fishController.createCaughtFishEntry(
+        mockRequestWithBody,
+        res as any
+      );
+      expect(res.status).toHaveBeenCalledWith(201);
+      expect(res.json).toHaveBeenCalledWith({
+        message: "Caught fish entry created successfully",
+      });
+      expect(mockQueryRunner.commitTransaction).toHaveBeenCalled();
     });
   });
 

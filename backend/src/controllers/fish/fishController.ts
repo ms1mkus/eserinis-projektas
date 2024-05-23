@@ -15,7 +15,9 @@ const createCaughtFishEntry = async (req: Request, res: Response) => {
   const userId = req.session?.passport?.user as string;
 
   if (!userId) {
-    return res.status(401).json({ message: "Unauthorized user" });
+    return res
+      .status(401)
+      .json({ message: "Session token is missing or invalid" });
   }
 
   let queryRunner: QueryRunner;

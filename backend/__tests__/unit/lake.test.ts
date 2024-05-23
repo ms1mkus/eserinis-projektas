@@ -5,10 +5,6 @@ import { User } from "../../src/entities/user";
 import { Lake } from "../../src/entities/lake";
 import { Like } from "../../src/entities/like";
 
-//IMPORANT: nepasikliaukit vs code auto importu,
-//pvz.: vs code siulys: import { Like } from "/src/entities/like";
-//bet "/src/entities/like" neveikia
-
 // kai tikrasis kodas importuoja data-source iš nurodytos direktorijos, tai grąžina mock'intą objektą.
 jest.mock("../../src/data-source", () => ({
   AppDataSource: {
@@ -270,6 +266,21 @@ describe("lakeController", () => {
       await lakeController.getLakes(mockRequest as Request, res as Response);
       expect(res.status).toHaveBeenCalledWith(200);
       expect(res.json).toHaveBeenCalledWith(expectedResult);
+    });
+
+    it("should handle errors", async () => {
+      const mockError = new Error("Test error");
+      (mockQueryRunner.manager.getRepository as jest.Mock).mockReturnValue({
+        find: jest.fn().mockRejectedValue(mockError),
+      });
+
+      const res = mockResponse();
+      await lakeController.getLakes(mockRequest as Request, res as Response);
+      expect(res.status).toHaveBeenCalledWith(500);
+      expect(res.json).toHaveBeenCalledWith({
+        message: "Failed to fetch lakes info",
+        error: mockError.message,
+      });
     });
   });
 
