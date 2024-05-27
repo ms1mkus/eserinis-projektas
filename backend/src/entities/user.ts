@@ -6,9 +6,12 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
+  ManyToMany,
+  JoinTable,
 } from "typeorm";
 import bcrypt from "bcryptjs";
 import { CaughtFish } from "./caughtFish";
+import { Like } from "./like";
 
 @Entity()
 export class User {
@@ -38,6 +41,9 @@ export class User {
 
   @OneToMany(() => CaughtFish, (caughtFish) => caughtFish.user)
   caughtFishes: CaughtFish[];
+
+  @OneToMany(() => Like, (like) => like.user)
+  likes: Like[];
 
   setPassword(password: string) {
     this.salt = bcrypt.genSaltSync(12);

@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { handleLogout } from "@/auth/logout";
 import { Link, useLocation } from "react-router-dom";
 import CreateCaughtFishModal from "../createCaughtFishModal";
 import { useDarkMode } from "@/context/DarkModeContext";
+import { HeartFilledIcon } from "@radix-ui/react-icons";
+import { LakesContext } from "@/context/LakesContext";
 
 // Define NavigationMenu component
 const NavigationMenu = ({ children, className }) => {
@@ -32,6 +34,8 @@ const Navbar = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { darkMode, setDarkMode } = useDarkMode();
 
+  const lakeContext = useContext(LakesContext);
+
   const handleOpenModal = () => {
     setIsModalOpen(true);
   };
@@ -44,7 +48,7 @@ const Navbar = () => {
     setDarkMode(!darkMode);
   };
 
-  const Modal = ({ isOpen, onClose, children }) => {
+  const Modal = ({ isOpen }) => {
     if (!isOpen) return null;
 
     return <CreateCaughtFishModal handleCloseModal={handleCloseModal} />;
@@ -80,6 +84,15 @@ const Navbar = () => {
               onClick={handleToggleDarkMode} // Call handleToggleDarkMode to toggle dark mode
             >
               {darkMode ? "Patamsinti žemėlapį" : "Pašviesinti žemėlapį"}
+            </button>
+
+            <button
+              className={`px-2 text-red-800 font-bold hover:text-blue-500 focus:outline-none flex flex-row justify-between items-center`}
+              onClick={() => {
+                lakeContext.setLovedOnly(!lakeContext.lovedOnly);
+              }}
+            >
+              <HeartFilledIcon /> Tik mėgstami ežerai
             </button>
             <button
               className={`px-2 text-blue-800 font-bold hover:text-blue-500 focus:outline-none`}

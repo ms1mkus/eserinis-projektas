@@ -19,6 +19,7 @@ import {
 import { Lake, useLakes } from "@/context/LakesContext";
 import { useDarkMode } from "@/context/DarkModeContext";
 import axios from "axios";
+import Heart from "react-animated-heart";
 
 export type Fish = {
   id: number;
@@ -28,21 +29,57 @@ export type Fish = {
 };
 
 const Map: React.FC = () => {
-  const { lakes, isLoading, error } = useLakes();
+  const { lakes, isLoading, error, lovedOnly, setLakes } = useLakes();
   const [selectedLake, setSelectedLake] = useState<Lake | null>(null);
   const [selectedLakeFishes, setSelectedLakeFishes] = useState<any[]>([]);
   const { darkMode } = useDarkMode();
+  const [isLoved, setLoved] = useState(false);
+  const [likedUsers, setLikedUsers] = useState<string[]>([]);
 
   const fetchLakeData = async () => {
+    setLoved(false);
     if (!selectedLake?.id) return;
     try {
-      console.log(selectedLake);
       const response = await axios.get(`/lake/${selectedLake.id}`);
       setSelectedLakeFishes(response.data);
-      // Handle the response and update state accordingly
+
+      const likesResponse = await axios.get(`/lake/likes/${selectedLake.id}`);
+      setLoved(likesResponse.data.hasUserLiked);
+      setLikedUsers(likesResponse.data.likedUsers || []);
     } catch (error) {
-      console.error("Error fetching fishes:", error);
+      console.error("Error fetching data:", error);
     }
+  };
+
+  const shownLakes = lovedOnly ? lakes.filter((lake) => lake.isLiked) : lakes;
+
+  const toggleLike = async () => {
+    try {
+      await axios.post(`/lake/like`, {
+        like: !isLoved,
+        lakeId: selectedLake?.id,
+      });
+      setLakes(
+        lakes.map((lake) => ({
+          ...lake,
+          isLiked: lake.id === selectedLake?.id ? !isLoved : lake.isLiked,
+        }))
+      );
+      setLoved(!isLoved);
+      fetchLakeData();
+    } catch (error) {
+      console.error("Error toggling like:", error);
+    }
+  };
+
+  const fishersText = () => {
+    if (likedUsers.length % 10 === 1) {
+      return "žvejas";
+    }
+    if (likedUsers.length > 0 && likedUsers.length < 10) {
+      return "žvejai";
+    }
+    return "žvejų";
   };
 
   useEffect(() => {
@@ -86,7 +123,7 @@ const Map: React.FC = () => {
               : '&copy; <a href="https://www.arcgis.com/">Esri</a>'
           }
         />
-        {lakes.map((lake) => (
+        {shownLakes.map((lake) => (
           <Marker
             key={lake.id}
             position={[
@@ -105,37 +142,54 @@ const Map: React.FC = () => {
         <Dialog open={true} onOpenChange={closeModal}>
           <DialogContent>
             <DialogHeader>
-              <DialogTitle className="text-3xl font-bold">
-                {selectedLake.name}
+              <DialogTitle className=" flex flex-row items-center justify-between">
+                <h1 className="text-3xl">{selectedLake.name}</h1>
+                <div>
+                  <Heart isClick={isLoved} onClick={toggleLike} />
+                  <p className="-mt-4 text-blue-800 text-center">
+                    {likedUsers.length > 0 &&
+                      `${likedUsers.length} ${fishersText()}`}
+                  </p>
+                </div>
               </DialogTitle>
             </DialogHeader>
-            <DialogDescription className="text-gray-600 p-6">
+            <DialogDescription className="text-black p-6 ">
               <div className="mb-4">
                 <span className="font-semibold text-xl">
-                  Plotas: {selectedLake.area} km²
+                  Plotas:{" "}
+                  <p className="inline text-gray-900">
+                    {selectedLake.area} km²
+                  </p>
                 </span>
               </div>
               <div className="mb-4">
                 <span className="font-semibold text-xl">
-                  Gylis: {selectedLake.depth} m.
+                  Gylis:{" "}
+                  <p className="inline text-gray-900">
+                    {selectedLake.depth} m.
+                  </p>
                 </span>
               </div>
               <div className="mb-4">
                 <span className="font-semibold text-xl">
-                  Aprašymas: {selectedLake.description}
+                  Aprašymas:{" "}
+                  <p className="inline text-gray-900">
+                    {selectedLake.description}
+                  </p>{" "}
                 </span>
               </div>
+              <br></br>
 
               <div className="container mx-auto p-4">
                 {selectedLakeFishes?.length > 0 ? (
                   <>
-                    <p className="text-4xl font-bold mb-4">
+                    <p className="text-4xl font-bold mb-12 text-center">
                       Šiame ežere galite pagauti:
                     </p>
                     <Carousel>
                       <CarouselContent>
                         {selectedLakeFishes.map((fish) => (
-                          <CarouselItem key={fish.id} className="basis-2/3">
+                          <CarouselItem key={fish.id} className="basis-2/3 m-2">
                             <div className="bg-white rounded-lg shadow-lg">
                               <img
                                 src={`../../../../public/${fish.name}.png`}

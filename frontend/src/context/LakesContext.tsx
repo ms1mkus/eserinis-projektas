@@ -10,12 +10,16 @@ export type Lake = {
   depth: number;
   description: string;
   location: Point;
+  isLiked: boolean;
 };
 
 type LakesContextProps = {
   lakes: Lake[];
   isLoading: boolean;
   error: string | null;
+  lovedOnly: boolean;
+  setLovedOnly: (arg: boolean) => void;
+  setLakes: (arg: Lake[]) => void;
 };
 
 // Create LakesContext
@@ -33,6 +37,7 @@ export const LakesProvider = ({ children }) => {
   const [lakes, setLakes] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [lovedOnly, setLovedOnly] = useState(false);
 
   // Use the isAuthenticated value from the useAuth hook
   const { isAuthenticated } = useAuth();
@@ -46,7 +51,7 @@ export const LakesProvider = ({ children }) => {
       }
 
       try {
-        const response = await axios.get("/lakes");
+        const response = await axios.get("/lake");
         setLakes(response.data);
         setIsLoading(false);
       } catch (err) {
@@ -62,6 +67,9 @@ export const LakesProvider = ({ children }) => {
     lakes,
     isLoading,
     error,
+    lovedOnly,
+    setLovedOnly,
+    setLakes,
   };
 
   return (

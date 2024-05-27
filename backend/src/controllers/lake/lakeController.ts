@@ -1,6 +1,9 @@
 import { Request, Response } from "express";
 import { QueryRunner } from "typeorm";
 import { AppDataSource } from "../../data-source";
+import { User } from "../../entities/user";
+import { Lake } from "../../entities/lake";
+import { Like } from "../../entities/like";
 
 const getLakeInfo = async (req: Request, res: Response) => {
   const { lakeId } = req.params;
@@ -43,6 +46,129 @@ const getLakeInfo = async (req: Request, res: Response) => {
   }
 };
 
+const likeLake = async (req: Request, res: Response) => {
+  const { like, lakeId } = req.body;
+  //@ts-ignore
+  const userId = req.session?.passport?.user as string;
+
+  if (!lakeId) {
+    return res.status(400).json({ message: "Lake ID is required" });
+  }
+
+  let queryRunner: QueryRunner;
+
+  try {
+    queryRunner = AppDataSource.createQueryRunner();
+    const userRepository = queryRunner.manager.getRepository(User);
+    const lakeRepository = queryRunner.manager.getRepository(Lake);
+    const likeRepository = queryRunner.manager.getRepository(Like);
+
+    const user = await userRepository.findOneOrFail({ where: { id: userId } });
+    const lake = await lakeRepository.findOneOrFail({ where: { id: lakeId } });
+
+    if (like) {
+      const newLike = new Like();
+      newLike.user = user;
+      newLike.lake = lake;
+
+      await likeRepository.save(newLike);
+    } else {
+      await likeRepository.delete({ user, lake });
+    }
+
+    res
+      .status(200)
+      .json({ success: true, message: `Lake ${like ? "liked" : "unliked"}` });
+  } catch (error) {
+    console.error("Error fetching lake info:", error);
+    res
+      .status(500)
+      .json({ message: "Failed to fetch lake info", error: error.message });
+  } finally {
+    if (queryRunner) {
+      await queryRunner.release();
+    }
+  }
+};
+
+export const getLikesByLakeId = async (req: Request, res: Response) => {
+  const lakeId = parseInt(req.params.lakeId, 10);
+  //@ts-ignore
+  const userId = req.session?.passport?.user as string;
+  let queryRunner: QueryRunner;
+
+  try {
+    queryRunner = AppDataSource.createQueryRunner();
+    const likeRepository = queryRunner.manager.getRepository(Like);
+
+    const likes = await likeRepository.find({
+      where: { lake: { id: lakeId } },
+      relations: ["user", "lake"],
+    });
+
+    const hasUserLiked = await likeRepository.findOne({
+      where: { lake: { id: lakeId }, user: { id: userId } },
+    });
+
+    console.log(hasUserLiked);
+
+    const likedUsers = likes.map((like) => like.user.username);
+
+    return res.status(200).json({
+      likedUsers: likedUsers,
+      hasUserLiked: Boolean(hasUserLiked),
+    });
+  } catch (error) {
+    console.error("Error fetching like:", error);
+    return res
+      .status(500)
+      .json({ message: "Failed to fetch like", error: error.message });
+  } finally {
+    if (queryRunner) {
+      await queryRunner.release();
+    }
+  }
+};
+
+export const getLakes = async (req: Request, res: Response) => {
+  //@ts-ignore
+  const userId = req.session?.passport?.user as string;
+  let queryRunner: QueryRunner;
+
+  try {
+    queryRunner = AppDataSource.createQueryRunner();
+
+    const lakeRepository = queryRunner.manager.getRepository(Lake);
+    const likeRepository = queryRunner.manager.getRepository(Like);
+
+    const lakes = await lakeRepository.find();
+    const likes = await queryRunner.manager.query(
+      'select l."lakeId"  from "like" l '
+    );
+
+    const likesSet = new Set(likes.map((like) => like.lakeId));
+
+    const lakesWithLikes = lakes.map((lake) => ({
+      ...lake,
+      isLiked: Boolean(likesSet.has(lake.id)),
+    }));
+
+    res.status(200).json(lakesWithLikes);
+  } catch (error) {
+    console.error("Error fetching lakes info:", error);
+    res
+      .status(500)
+      .json({ message: "Failed to fetch lakes info", error: error.message });
+  } finally {
+    if (queryRunner) {
+      await queryRunner.release();
+    }
+  }
+};
+
 export default {
   getLakeInfo,
+  likeLake,
+  getLikesByLakeId,
+  getLakes,
 };

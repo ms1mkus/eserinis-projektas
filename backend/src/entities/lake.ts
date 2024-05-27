@@ -7,6 +7,7 @@ import {
   OneToMany,
 } from "typeorm";
 import { CaughtFish } from "./caughtFish";
+import { Like } from "./like";
 
 @Entity()
 export class Lake {
@@ -36,4 +37,7 @@ export class Lake {
 
   @OneToMany(() => CaughtFish, (caughtFish) => caughtFish.lake)
   caughtFishes: CaughtFish[];
+
+  @OneToMany(() => Like, (like) => like.lake)
+  likes: Like[];
 }
