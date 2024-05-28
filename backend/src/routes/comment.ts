@@ -6,8 +6,6 @@ import commentController from "../controllers/comment/commentController";
 const router = express.Router();
 
 router.route("/").post(isAuthenticated, commentController.postComment);
-router
-  .route("/:lakeId")
-  .get(isAuthenticated, commentController.getLakeComments);
+router.route("/:lakeId").get(commentController.getLakeComments);
 
 export default router;
