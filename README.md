@@ -84,6 +84,7 @@
 
   > [!TIP]
 > Backend instrukcijos yra folderyje [./backend/README.md](./backend/README.md)
+ > [!TIP]
 > Frontend instrukcijos yra folderyje [./frontend/README.md](./frontend/README.md)
 
 > [!CAUTION]
