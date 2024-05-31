@@ -85,5 +85,6 @@
   Backend instrukcijos yra folderyje ./backend/README.md
   Frontend instrukcijos yra folderyje ./frontend/README.me
   
-  BUTINAI turit but backend folderyje kai leisit tas komandas kurios gide  (./frontend/README.md) yra aprasytos.
+> [!CAUTION]
+> BUTINAI turite būti backend folderyje kai bandysite leisti tas komandas kurios gide (./frontend/README.md) yra aprašytos.
   ATITINKAMAI ir su frontend folderiu kai leisti frontend komandas.
