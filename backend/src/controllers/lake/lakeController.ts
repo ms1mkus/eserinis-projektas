@@ -139,11 +139,11 @@ export const getLakes = async (req: Request, res: Response) => {
     queryRunner = AppDataSource.createQueryRunner();
 
     const lakeRepository = queryRunner.manager.getRepository(Lake);
-    const likeRepository = queryRunner.manager.getRepository(Like);
 
     const lakes = await lakeRepository.find();
     const likes = await queryRunner.manager.query(
-      'select l."lakeId"  from "like" l '
+      `SELECT l."lakeId" FROM "like" l WHERE l."userId" = $1`,
+      [userId]
     );
 
     const likesSet = new Set(likes.map((like) => like.lakeId));
