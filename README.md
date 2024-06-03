@@ -80,13 +80,14 @@
   - Install Docker Desktop
   - Run Docker Desktop
   
-  Ir tada cmd pasileiskit (atsidarykit cmd kur norit kad projektas butu :) ): git clone https://github.com/ms1mkus/eserinis.git
+  * Ir tada cmd pasileiskit (atsidarykit cmd kur norit kad projektas būtų :) ): git clone https://github.com/ms1mkus/eserinis.git
 
-  > [!TIP]
+> [!TIP]
 > Backend instrukcijos yra folderyje [./backend/README.md](./backend/README.md)
- > [!TIP]
+
+> [!TIP]
 > Frontend instrukcijos yra folderyje [./frontend/README.md](./frontend/README.md)
 
 > [!CAUTION]
-> BUTINAI turite būti backend folderyje kai bandysite leisti tas komandas kurios gide [./frontend/README.md](./frontend/README.md) yra aprašytos.
-  ATITINKAMAI ir su frontend folderiu kai leisti frontend komandas.
+> BŪTINAI turite būti backend folderyje kai bandysite leisti tas komandas kurios gide [./frontend/README.md](./frontend/README.md) yra aprašytos.
+  Atitinkamai ir su frontend folderiu kai leisti frontend komandas.
