@@ -77,9 +77,7 @@ If the server is running, you should receive `Server is up!` as response.
 
 ### Step 3: Create the database table
 
-Run `yarn migration:run` to run the migration and create the table.
----
-
+## Run `yarn migration:run` to run the migration and create the table.
 
 ## Scripts
 
@@ -110,60 +108,62 @@ SVARBU, kai yarn docker:up pasileidziat tai sukuria jums virtual machine kind of
 - Run `yarn type-check` to run type checking.
 
 ### • Migrations
+
 - Run `yarn migration:run` to run non-executed migrations.
 - Run `yarn migration:generate MigrationName` to generate a migration based on entities changes.
 - Run `yarn migration:create MigrationName` to create a empty migration.
 - Run `yarn migration:revert` to revert the last migration. If you want to revert multiple migrations, you can run this command several times.
 
 ### • Linting
+
 - Run code quality analysis using `yarn lint`. This runs ESLint and displays warning and errors.
 - You can also use `yarn lint:fix` to run ESLint and fix fixable warning and errors.
 
 ### • Tests
+
 - Run tests using `yarn test`.
 - Run tests with coverage using `yarn test:coverage`.
 
 ---
 
-
 ## API Routes
 
 The route prefix is `/api` by default, but you can change this in the .env file.
 
-| Route                       | Method | Description |
-| --------------------------- | ------ | ----------- |
-| **/api/health**             | GET    | Show `Server is up!` |
-| **/api/users**              | POST   | Create a user |
-| **/api/auth/login**         | POST   | Log a user |
-| **/api/auth/logout**        | POST   | Logout logged user |
+| Route                       | Method | Description                  |
+| --------------------------- | ------ | ---------------------------- |
+| **/api/health**             | GET    | Show `Server is up!`         |
+| **/api/users**              | POST   | Create a user                |
+| **/api/auth/login**         | POST   | Log a user                   |
+| **/api/auth/logout**        | POST   | Logout logged user           |
 | **/api/auth/authenticated** | GET    | Return authentication status |
 
 ---
 
 ## Project Structure
 
-| Name                                        | Description |
-| ------------------------------------------- | ----------- |
-| **__tests__/**                              | Tests |
-| **__tests__/e2e/**                          | End-to-end tests |
-| **__tests__/utils/**                        | Tests utils |
-| **@types/**                                 | Global types definitions |
+| Name                                        | Description                               |
+| ------------------------------------------- | ----------------------------------------- |
+| ****tests**/**                              | Tests                                     |
+| ****tests**/e2e/**                          | End-to-end tests                          |
+| ****tests**/utils/**                        | Tests utils                               |
+| **@types/**                                 | Global types definitions                  |
 | **build/**                                  | Compiled source files will be placed here |
 | **coverage/**                               | Jest coverage results will be placed here |
-| **src/**                                    | Source files |
-| **src/config/**                             | Configuration files |
-| **src/controllers/**                        | REST API Controllers |
-| **src/controllers/[feature]/index.ts**      | Functions for feature routes |
-| **src/controllers/[feature]/validators.ts** | Validation functions for feature routes |
-| **src/entities/**                           | TypeORM entities |
-| **src/middlewares/**                        | Middlewares |
-| **src/migrations/**                         | Migrations files |
-| **src/routes/**                             | REST API Routes |
-| **src/routes/[feature].ts**                 | Feature routes |
-| **src/types/**                              | Typescript types |
-| **src/utils/**                              | Utils functions |
-| **src/data-source.ts**                      | TypeORM data source |
-| **src/index.ts**                            | REST API entry point |
+| **src/**                                    | Source files                              |
+| **src/config/**                             | Configuration files                       |
+| **src/controllers/**                        | REST API Controllers                      |
+| **src/controllers/[feature]/index.ts**      | Functions for feature routes              |
+| **src/controllers/[feature]/validators.ts** | Validation functions for feature routes   |
+| **src/entities/**                           | TypeORM entities                          |
+| **src/middlewares/**                        | Middlewares                               |
+| **src/migrations/**                         | Migrations files                          |
+| **src/routes/**                             | REST API Routes                           |
+| **src/routes/[feature].ts**                 | Feature routes                            |
+| **src/types/**                              | Typescript types                          |
+| **src/utils/**                              | Utils functions                           |
+| **src/data-source.ts**                      | TypeORM data source                       |
+| **src/index.ts**                            | REST API entry point                      |
 
 ---
 
@@ -171,22 +171,22 @@ The route prefix is `/api` by default, but you can change this in the .env file.
 
 .env faile siti variables.
 
-| Name                | Description | Optional | Default value |
-| ------------------- | ----------- | -------- | ------------- |
-| NODE_ENV            |  Used to state whether an environment is a production, development, test environment, etc. | ✔️ | 
-| HOST                | Server host | ✔️ | 0.0.0.0 |
-| PORT                | Server host port | ❌ |
-| DB_USER             | Database username | ❌ |
-| DB_HOST             | Database host | ❌ |
-| DB_NAME             | Database name | ❌ |
-| DB_PASSWORD         | Database password | ❌ |
-| DB_PORT             | Database host port | ❌ |
-| DB_HOST_PORT        | Database mapped port. On the machine that use Docker, the database will be accessible on this port | ❌ |
-| CORS_ORIGIN_ALLOWED | List of CORS allowed origins | ✔️ |
-| API_ROUTES_PREFIX   | The API routes prefix. Is set to `/api`, all the routes are accessible by querying `/api/...`   | ✔️ |
-| TEST_DB_HOST        | Test database host | ❌
-| TEST_DB_NAME        | Test database name | ❌
-| TEST_DB_HOST_PORT   | Test database mapped port. On the machine that use Docker, the test database will be accessible on this port | ❌
+| Name                | Description                                                                                                  | Optional | Default value |
+| ------------------- | ------------------------------------------------------------------------------------------------------------ | -------- | ------------- |
+| NODE_ENV            | Used to state whether an environment is a production, development, test environment, etc.                    | ✔️       |
+| HOST                | Server host                                                                                                  | ✔️       | 0.0.0.0       |
+| PORT                | Server host port                                                                                             | ❌       |
+| DB_USER             | Database username                                                                                            | ❌       |
+| DB_HOST             | Database host                                                                                                | ❌       |
+| DB_NAME             | Database name                                                                                                | ❌       |
+| DB_PASSWORD         | Database password                                                                                            | ❌       |
+| DB_PORT             | Database host port                                                                                           | ❌       |
+| DB_HOST_PORT        | Database mapped port. On the machine that use Docker, the database will be accessible on this port           | ❌       |
+| CORS_ORIGIN_ALLOWED | List of CORS allowed origins                                                                                 | ✔️       |
+| API_ROUTES_PREFIX   | The API routes prefix. Is set to `/api`, all the routes are accessible by querying `/api/...`                | ✔️       |
+| TEST_DB_HOST        | Test database host                                                                                           | ❌       |
+| TEST_DB_NAME        | Test database name                                                                                           | ❌       |
+| TEST_DB_HOST_PORT   | Test database mapped port. On the machine that use Docker, the test database will be accessible on this port | ❌       |
 
 ---
 
@@ -204,13 +204,15 @@ You can find the Passport docs [here](https://www.passportjs.org/).
 To protect a route, you can use auth middlewares located in `src/middlewares/auth.ts`.
 
 To check if a user is authenticated before accessing a route, use `isAuthenticated`:
+
 ```typescript
-router.route('/logout').post(isAuthenticated, AuthController.logout);
+router.route("/logout").post(isAuthenticated, AuthController.logout);
 ```
 
 To check if a user is not authenticated before accessing a route, use `isUnauthenticated`:
+
 ```typescript
-router.route('/login').post(isUnauthenticated, AuthController.login);
+router.route("/login").post(isUnauthenticated, AuthController.login);
 ```
 
 ---
@@ -232,10 +234,12 @@ To create a migration, run `yarn migration:create MigrationName`. It will create
 To generate a migration based on entities' changes, run `yarn migration:generate MigrationName`, it will create a migration in `src/migrations`. The migration is automatically generated based on your entities compared to your actual database.
 
 For example, you can try by adding a property `firstName` in the `User` entity:
+
 ```typescript
 @Column({ nullable: false, length: 20 })
 firstName!: string;
 ```
+
 Then, run `yarn migration:generate AddFirstNameInUser`, it will automatically generate a migration to create the new column.
 
 ### Run migrations
@@ -251,6 +255,7 @@ You can revert the last executed migration by running `yarn migration:revert`. I
 ## E2E Tests
 
 ### Tests overview
+
 End-to-end testing is a methodology used to test the functionality and performance of an application under product-like circumstances and data to replicate live settings. The goal is to simulate what a real user scenario looks like from start to finish.
 
 In this project, [Jest](https://jestjs.io/docs/getting-started) and [supertest](https://github.com/ladjs/supertest) are used for the E2E tests.
@@ -260,6 +265,7 @@ They are located in `__tests__/e2e/`.
 The actual coverage is 100%.
 
 ### Commands
+
 You can run the tests by running `yarn test` in the `api` container shell.
 
 If you want to see the tests' coverage, you can run `yarn test:coverage`.
@@ -267,48 +273,57 @@ If you want to see the tests' coverage, you can run `yarn test:coverage`.
 If you want to run only one test file, you can add the name or path of the file after the command. For example, use `yarn test auth` to run only the auth tests.
 
 ### How to create new tests
+
 To create new tests, you can add tests in an existing test file or create a new test file.
 
 Before all your tests, you need to create the test server:
+
 ```typescript
 let server: Server;
 
-beforeAll(async() => {
-    server = await createTestServer();
+beforeAll(async () => {
+  server = await createTestServer();
 });
 ```
 
 And after all your tests, you must close the database connection and the test server:
+
 ```typescript
 afterAll(async () => {
-    await closeDatabase();
-    server.close();
-})
+  await closeDatabase();
+  server.close();
+});
 ```
 
 Then, you can create a test suite by using `describe` function.
 
 It is strongly recommended to clean the database after each test to prevent data issues and duplicates:
+
 ```typescript
 afterEach(async () => {
-    await clearDatabase();
+  await clearDatabase();
 });
 ```
 
 Then, you can create a test by using `test` function.
 
-To test a route, you need to use `supertest`: 
+To test a route, you need to use `supertest`:
+
 ```typescript
-const res = await request(server).get('/api/auth/authenticated');
+const res = await request(server).get("/api/auth/authenticated");
 ```
+
 To test a route as an authenticated user, use the `createAuthenticatedAgent` function:
+
 ```typescript
 const { agent } = await createAuthenticatedAgent(server);
-const res = await agent.get('/api/auth/authenticated');
+const res = await agent.get("/api/auth/authenticated");
 ```
+
 Agents allow maintaining a session between multiple requests.
 
 To check values, you must use `expect` function:
+
 ```typescript
 expect(res.statusCode).toEqual(200);
 ```
@@ -318,24 +333,31 @@ You can find more info about `Jest` [here](https://jestjs.io/docs/getting-starte
 You can find more info about `supertest` [here](https://github.com/ladjs/supertest).
 
 ### Tests utils
+
 Some utils have been created to easily create new tests. They are located in `__tests__/utils/`.
 
 #### `createTestServer` (`testHelpers.ts`)
+
 This function creates a test server. You can change the port, prevent the database connection or override Express.
 
 #### `closeDatabase` (`testHelpers.ts`)
+
 This function closes the database connection.
 
 #### `clearDatabase` (`testHelpers.ts`)
+
 This function clears the database data.
 
 #### `createAuthenticatedAgent` (`testHelpers.ts`)
+
 This function creates an authenticated agent. Agents allow maintaining a session between multiple requests. You can customize agent user information.
 
 #### `createTestUser` (`userHelpers.ts`)
+
 This function creates a user and inserts it in the database. You can customize the user information.
 
 ---
+
 ## Existing Routes
 
 Some basic routes are already implemented. Feel free to use, update or delete them at your conveniance.
@@ -363,19 +385,19 @@ If you encounter an error when running a script, make sure you ran the script in
 
 ## Further Documentations
 
-| Name & Link                       | Description                       |
-| --------------------------------- | --------------------------------- |
-| [Express](https://expressjs.com/) | Express is a minimal and flexible Node.js web application framework that provides a robust set of features for web and mobile applications. |
-| [TypeORM](http://typeorm.io/#/) | TypeORM is highly influenced by other ORMs, such as Hibernate, Doctrine and Entity Framework. |
-| [Passport](https://www.passportjs.org/) | Passport is authentication middleware for Node.js. Extremely flexible and modular, Passport can be unobtrusively dropped in to any Express-based web application. |
-| [Docker](https://www.docker.com/) | Docker is a platform designed to help developers build, share, and run modern applications. We handle the tedious setup, so you can focus on the code. |
-| [PostgreSQL](https://www.postgresql.org/) | PostgreSQL is a powerful, open source object-relational database system with over 35 years of active development that has earned it a strong reputation for reliability, feature robustness, and performance. |
-| [TypeScript](https://www.typescriptlang.org/) | TypeScript is a strongly typed programming language that builds on JavaScript, giving you better tooling at any scale. |
-| [validator](https://github.com/validatorjs/validator.js/) | A library of string validators and sanitizers. |
-| [Jest](https://jestjs.io/fr/docs/getting-started/) | Jest is a Testing Framework with a focus on simplicity. |
-| [supertest](https://github.com/ladjs/supertest/) | A library that allows developers and testers to test the APIs. |
-| [Helmet](https://helmetjs.github.io/) | Helmet helps you secure your Express apps by setting various HTTP headers. |
-| [cors](https://github.com/expressjs/cors) | CORS is a node.js package for providing a Connect/Express middleware that can be used to enable CORS with various options. |
-| [ESLint](https://eslint.org/docs/latest/use/getting-started) | ESLint is a tool for identifying and reporting on patterns found in code, with the goal of making code more consistent and avoiding bugs. |
+| Name & Link                                                  | Description                                                                                                                                                                                                   |
+| ------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [Express](https://expressjs.com/)                            | Express is a minimal and flexible Node.js web application framework that provides a robust set of features for web and mobile applications.                                                                   |
+| [TypeORM](http://typeorm.io/#/)                              | TypeORM is highly influenced by other ORMs, such as Hibernate, Doctrine and Entity Framework.                                                                                                                 |
+| [Passport](https://www.passportjs.org/)                      | Passport is authentication middleware for Node.js. Extremely flexible and modular, Passport can be unobtrusively dropped in to any Express-based web application.                                             |
+| [Docker](https://www.docker.com/)                            | Docker is a platform designed to help developers build, share, and run modern applications. We handle the tedious setup, so you can focus on the code.                                                        |
+| [PostgreSQL](https://www.postgresql.org/)                    | PostgreSQL is a powerful, open source object-relational database system with over 35 years of active development that has earned it a strong reputation for reliability, feature robustness, and performance. |
+| [TypeScript](https://www.typescriptlang.org/)                | TypeScript is a strongly typed programming language that builds on JavaScript, giving you better tooling at any scale.                                                                                        |
+| [validator](https://github.com/validatorjs/validator.js/)    | A library of string validators and sanitizers.                                                                                                                                                                |
+| [Jest](https://jestjs.io/fr/docs/getting-started/)           | Jest is a Testing Framework with a focus on simplicity.                                                                                                                                                       |
+| [supertest](https://github.com/ladjs/supertest/)             | A library that allows developers and testers to test the APIs.                                                                                                                                                |
+| [Helmet](https://helmetjs.github.io/)                        | Helmet helps you secure your Express apps by setting various HTTP headers.                                                                                                                                    |
+| [cors](https://github.com/expressjs/cors)                    | CORS is a node.js package for providing a Connect/Express middleware that can be used to enable CORS with various options.                                                                                    |
+| [ESLint](https://eslint.org/docs/latest/use/getting-started) | ESLint is a tool for identifying and reporting on patterns found in code, with the goal of making code more consistent and avoiding bugs.                                                                     |
 
 ---
