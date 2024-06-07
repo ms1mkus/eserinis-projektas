@@ -1,10 +1,13 @@
 import AuthProvider from "./auth/authProvider";
+import { LakesProvider } from "./context/LakesContext";
 import RoutesManager from "./routes/RoutesManager";
 
 function App() {
   return (
     <AuthProvider>
-      <RoutesManager />
+      <LakesProvider>
+        <RoutesManager />
+      </LakesProvider>
     </AuthProvider>
   );
 }

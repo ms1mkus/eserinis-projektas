@@ -38,7 +38,12 @@ const RoutesManager = () => {
         },
         {
           path: "/profile",
-          element: <div>User Profile.</div>,
+          element: (
+            <>
+              <Navbar />
+              <div>placeholder for User Profile.</div>,
+            </>
+          ),
         },
       ],
     },

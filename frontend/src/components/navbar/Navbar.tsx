@@ -1,5 +1,7 @@
+import { useState } from "react";
 import { handleLogout } from "@/auth/logout";
 import { Link, useLocation } from "react-router-dom";
+import CreateCaughtFishModal from "../createCaughtFishModal";
 
 // Define NavigationMenu component
 const NavigationMenu = ({ children, className }) => {
@@ -25,13 +27,28 @@ const Logo = () => {
   );
 };
 
+const Modal = ({ isOpen, onClose, children }) => {
+  if (!isOpen) return null;
+
+  return <CreateCaughtFishModal />;
+};
+
 const Navbar = () => {
   const location = useLocation();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
 
   // Define the list of navigation items
   const navItemsLeft = [{ path: "/", label: "Home" }];
 
-  const navItemsRight = [{ path: "/account", label: "Account" }];
+  const navItemsRight = [{ path: "/profile", label: "Profile" }];
 
   return (
     <div>
@@ -53,6 +70,9 @@ const Navbar = () => {
                 </Link>
               </NavigationMenuItem>
             ))}
+            <button className="mx-4 font-semibold" onClick={handleOpenModal}>
+              Man pakibo
+            </button>
           </div>
           <div className="flex space-x-4 ml-auto">
             {navItemsRight.map((item) => (
@@ -75,6 +95,11 @@ const Navbar = () => {
           </div>
         </NavigationMenuList>
       </NavigationMenu>
+
+      <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
+        <h2>Modal Content Here</h2>
+        <p>This is the content of the modal.</p>
+      </Modal>
     </div>
   );
 };

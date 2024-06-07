@@ -1,4 +1,12 @@
-import { Entity, PrimaryGeneratedColumn, Column, Index, Point } from "typeorm";
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  Index,
+  Point,
+  OneToMany,
+} from "typeorm";
+import { CaughtFish } from "./caughtFish";
 
 @Entity()
 export class Lake {
@@ -25,4 +33,7 @@ export class Lake {
     nullable: true,
   })
   location: Point;
+
+  @OneToMany(() => CaughtFish, (caughtFish) => caughtFish.lake)
+  caughtFishes: CaughtFish[];
 }
