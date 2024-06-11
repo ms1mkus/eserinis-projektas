@@ -5,6 +5,7 @@ import Register from "../pages/Register";
 import Home from "../pages/Home";
 import Navbar from "@/components/navbar/Navbar";
 import { useAuth } from "@/auth/authProvider";
+import About from "@/pages/About";
 
 const RoutesManager = () => {
   const { isAuthenticated } = useAuth();
@@ -14,10 +15,6 @@ const RoutesManager = () => {
     {
       path: "/service",
       element: <div>Service Page</div>,
-    },
-    {
-      path: "/about-us",
-      element: <div>About Us</div>,
     },
   ];
 
@@ -41,7 +38,16 @@ const RoutesManager = () => {
           element: (
             <>
               <Navbar />
-              <div>placeholder for User Profile.</div>,
+              <div>placeholder for User Profile.</div>
+            </>
+          ),
+        },
+        {
+          path: "/about",
+          element: (
+            <>
+              <Navbar />
+              <About />
             </>
           ),
         },

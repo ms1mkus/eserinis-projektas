@@ -138,7 +138,7 @@ const Map: React.FC = () => {
                           <CarouselItem key={fish.id} className="basis-2/3">
                             <div className="bg-white rounded-lg shadow-lg">
                               <img
-                                src={`../../../../public/${fish.id}.png`}
+                                src={`../../../../public/${fish.name}.png`}
                                 alt={fish.name}
                                 className="w-full h-32 object-cover rounded-lg mb-4"
                               />
