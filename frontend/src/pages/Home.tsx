@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import "../styles/LakeList.css";
-//yoyoyo sikiskik
+
 const LakeList = () => {
   const [lakes, setLakes] = useState([]);
 
