@@ -184,10 +184,7 @@ const Navbar = () => {
         </NavigationMenuList>
       </NavigationMenu>
 
-      <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
-        <h2>Modal Content Here</h2>
-        <p>This is the content of the modal.</p>
-      </Modal>
+      <Modal isOpen={isModalOpen} onClose={handleCloseModal}></Modal>
     </div>
   );
 };

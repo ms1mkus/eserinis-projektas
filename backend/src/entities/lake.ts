@@ -8,6 +8,7 @@ import {
 } from "typeorm";
 import { CaughtFish } from "./caughtFish";
 import { Like } from "./like";
+import { Comment } from "./comment";
 
 @Entity()
 export class Lake {
@@ -40,4 +41,7 @@ export class Lake {
 
   @OneToMany(() => Like, (like) => like.lake)
   likes: Like[];
+
+  @OneToMany(() => Comment, (comment) => comment.lake)
+  comments: Comment[];
 }
